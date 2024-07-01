@@ -24,12 +24,12 @@ import java.io.IOException;
 
 @Configuration
 public class SecurityConfig {
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 	}
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -41,10 +41,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(http -> http
 				.requestMatchers("/admin**").hasAnyAuthority("ADMIN")
 				.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-				.requestMatchers("/login","/index.js","/auth/**","/css/**","/img/**","/fonts/**","/js/**","/scss/**").permitAll()
-				.requestMatchers("/","/user/**").permitAll()
-				.requestMatchers("/signUp","/api/v1/users/signUp","/api/v1/users/getUser").permitAll()
-				.requestMatchers("/jquery.simplePagination.min.js","/ProductImages/**","/paginiation/**","/api/v1/rates/getRatesByProductId/**","/api/v1/rates/create").permitAll()
+						.requestMatchers("/login","/index.js","/auth/**","/css/**","/img/**","/fonts/**","/js/**","/scss/**").permitAll()
+				.requestMatchers("/","/api/**","/user/**").permitAll()
 				.anyRequest().authenticated()).logout(httpLogout -> httpLogout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/login"))
@@ -79,12 +77,12 @@ public class SecurityConfig {
 	rememberMe.setMatchingAlgorithm(RememberMeTokenAlgorithm.MD5);
 	return rememberMe;
 	}
-	
-	@Bean
-	public LayoutDialect layoutDialect() {
-	  return new LayoutDialect();
-	}
-	
+
+//	@Bean
+//	public LayoutDialect layoutDialect() {
+//	  return new LayoutDialect();
+//	}
+
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {
 		return new SimpleUrlAuthenticationFailureHandler() {

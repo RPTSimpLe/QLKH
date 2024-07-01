@@ -1,8 +1,10 @@
 package com.DoAn.f88.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -23,7 +25,18 @@ public class BaseEntity {
 	private String createBy;
 	@LastModifiedBy
 	private String modifierBy;
-	
+	@Column(nullable = false)
+	@ColumnDefault("0")
+	private Integer deleted;
+
+	public Integer getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Integer deleted) {
+		this.deleted = deleted;
+	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}

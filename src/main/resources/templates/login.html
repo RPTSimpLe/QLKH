@@ -11,26 +11,47 @@
     <title>Tài khoản</title>
 </head>
 <body>
+<style>
+     .select_tag{
+         background: none;
+         outline: none;
+         border: none;
+         line-height: 1;
+         font-weight: 600;
+         font-size: 1.1rem;
+         color: #333;
+     }
+    .select_tag:focus-visible{
+        outline: none;
+    }
+</style>
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
             <form th:action="@{/login}" th:method="post" class="sign-in-form">
-                <h2 class="title">Sign in</h2>
+                <h2 class="title">Đăng nhập</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Username" name="username"/>
-                </div>
-                <div>
-                    <div th:if="${error}">
-                        <span th:text="${message}" class="text-danger"></span>
-                    </div>
+                    <input type="text" placeholder="Tên đăng nhập" name="username"/>
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" name="password" />
+                    <input type="password" placeholder="Mật khẩu" name="password" />
                 </div>
-                <input type="submit" value="Login" class="btn solid" />
-                <p class="social-text">Or Sign in with social platforms</p>
+
+                <div style="width: 45%">
+                    <div th:if="${error}">
+                        <span style="color: red" th:text="'Sai tài khoản hoặc mật khẩu'" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="remember-me"> Ghi nhớ tài khoản</label>
+                    </div>
+                    <a th:href="@{/#}" class="forgot-pass">Quên mật khẩu ?</a>
+                </div>
+
+                <input type="submit" value="Đăng nhập" class="btn solid" />
+                <p class="social-text">Hoặc đăng nhập bằng</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
@@ -47,21 +68,43 @@
                 </div>
             </form>
             <form action="#" class="sign-up-form">
-                <h2 class="title">Sign up</h2>
+                <h2 class="title">Đăng kí</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Username" />
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" />
+                    <input type="text" name="username" placeholder="Tên đăng nhập" />
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" />
+                    <input type="password" name="password" placeholder="Mật khẩu" />
                 </div>
-                <input type="submit" class="btn" value="Sign up" />
-                <p class="social-text">Or Sign up with social platforms</p>
+                <div class="input-field">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="text" name="name" placeholder="Họ tên" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-phone"></i>
+                    <input type="number" name="phoneNumber" placeholder="Số điện thoại" />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-transgender-alt"></i>
+                    <select class="select_tag" name="gender">
+                        <option value=""> Giới tính </option>
+                        <option value="0"> Nam </option>
+                        <option value="1"> Nữ </option>
+                        <option value="2"> Khác </option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-birthday-cake"></i>
+                    <input type="date" name="birthday" placeholder="Ngày sinh" />
+                </div>
+                <span style="color: red; width: 47%" class="text-danger error_signUp"></span>
+                <input type="submit" class="btn" value="Đăng kí" />
+                <p class="social-text">Hoặc đăng kí bằng</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
@@ -83,26 +126,21 @@
     <div class="panels-container">
         <div class="panel left-panel">
             <div class="content">
-                <h3>New here ?</h3>
+                <h3>Tạo tài khoản mới ?</h3>
                 <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-                    ex ratione. Aliquid!
+                    Bạn chưa có tài khoản
                 </p>
                 <button class="btn transparent" id="sign-up-btn">
-                    Sign up
+                    Đăng kí
                 </button>
             </div>
             <img th:src="@{auth/img/log.svg}" class="image" alt="" />
         </div>
         <div class="panel right-panel">
             <div class="content">
-                <h3>One of us ?</h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                    laboriosam ad deleniti.
-                </p>
+                <h3>Bạn đã có tài khoản ?</h3>
                 <button class="btn transparent" id="sign-in-btn">
-                    Sign in
+                    Đăng nhập
                 </button>
             </div>
             <img th:src="@{auth/img/register.svg}" class="image" alt="" />
@@ -111,5 +149,19 @@
 </div>
 
 <script th:src="@{/auth/auth.js}"></script>
+<script th:src="@{/api/api.js}"></script>
+<script>
+    document.querySelector('.sign-up-form').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let values = formToObject('.sign-up-form')
+        console.log(values)
+        post("/api/register",values)
+            .then(response => {
+                if(response.message != null){
+                    document.querySelector('.error_signUp').innerHTML = response.message
+                }
+            })
+    })
+</script>
 </body>
 </html>

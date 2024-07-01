@@ -1,9 +1,9 @@
 package com.DoAn.f88.service.impl;
 
 import com.DoAn.f88.entity.RoleEntity;
-import com.DoAn.f88.entity.UserEntity;
+import com.DoAn.f88.entity.AccountEntity;
 import com.DoAn.f88.exeption.ApplicationException;
-import com.DoAn.f88.repository.UserRepository;
+import com.DoAn.f88.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,17 +24,16 @@ import java.util.Optional;
 public class MyAppUserDetailService implements UserDetailsService{
 	
 		@Autowired
-		private UserRepository repository;
+		private AccountRepository repository;
 	
 		@Override
 		public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-			Optional<UserEntity> userOtp = repository.findByUserName(username);
+			Optional<AccountEntity> userOtp = repository.findByUserName(username);
 			if(userOtp.isEmpty()) {
-				throw new ApplicationException("user not found");
+				throw new ApplicationException("");
 			}
-			UserEntity entity = userOtp.get();
-			
-			// user entity -> user detail của spring
+			AccountEntity entity = userOtp.get();
+
 			List<GrantedAuthority> roles = new ArrayList<>();
 			
 			List<RoleEntity> roleEntities = entity.getRoles();
@@ -46,7 +45,6 @@ public class MyAppUserDetailService implements UserDetailsService{
 			UserDetails userDetail = User
 					.withUsername(entity.getUsername())
 					.password(entity.getPassword())
-					//roles.(null)
 					.authorities(roles)
 					.build();
 			return userDetail;
