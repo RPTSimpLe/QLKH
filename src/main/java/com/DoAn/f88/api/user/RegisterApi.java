@@ -16,5 +16,4 @@ public class RegisterApi {
     public AccountDTO register(@RequestBody CreateAccform createAccform) {
         return accountService.createAccount(createAccform);
     }
-
 }

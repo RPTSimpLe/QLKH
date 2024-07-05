@@ -3,7 +3,7 @@ package com.DoAn.f88.dto.account;
 import com.DoAn.f88.dto.BaseDTO;
 import com.DoAn.f88.entity.ImageEntity;
 import com.DoAn.f88.entity.RoleEntity;
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

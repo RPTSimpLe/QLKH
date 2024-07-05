@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm tài khoản</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thêm tài khoản</h4>
+                    <div class="form-group">
+                        <label for="exampleSelectGen">Thêm tài khoản cho: </label>
+                        <select class="form-control" id="exampleSelectGen" onchange="loadForm(this.value)">
+                            <option>Chọn</option>
+                            <option value="0">Nhân viên</option>
+                            <option value="1">Giáo viên</option>
+                            <option value="2">Học viên</option>
+                        </select>
+                    </div>
+                    <form class="forms-sample form_teacherAndStudent" hidden>
+                        <div class="form-group">
+                            <label for="exampleInputName6">Họ tên</label>
+                            <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Họ tên">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Tên đăng nhập</label>
+                            <input type="text" class="form-control" name="username" id="exampleInputName1" placeholder="Tên đăng nhập">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword4">Mật khẩu</label>
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword4" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Email</label>
+                            <input type="email" class="form-control" name="email" id="exampleInputEmail3" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName5">Số điện thoại</label>
+                            <input type="text" class="form-control" name="phone" id="exampleInputName5" placeholder="Số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName7">Ngày sinh</label>
+                            <input type="date" class="form-control" name="birthday" id="exampleInputName7" placeholder="Ngày sinh">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Giới tính</label>
+                            <select class="form-control" id="exampleSelectGender" name="gender">
+                                <option value="">Chọn giới tính</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
+                                <option value="2">Khác</option>
+                            </select>
+                        </div>
+<!--                        teacher-->
+                        <div class="form-group teacherAttribute">
+                            <label for="exampleCertificate">Bằng cấp</label>
+                            <input type="text" class="form-control" name="certificate" id="exampleCertificate" placeholder="Bằng cấp">
+                        </div>
+<!--                            student-->
+                        <div class="form-group studentAttribute">
+                            <label for="exampleEducation">Trình độ học vấn</label>
+                            <input type="text" class="form-control" name="certificate" id="exampleEducation" placeholder="Trình độ học vấn">
+                        </div>
+                        <input name="role" class="role" hidden>
+                        <div class="form-group">
+                            <label>Ảnh đại diện</label>
+                            <input type="file" name="img[]" class="file-upload-default">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                <span class="input-group-append">
+                                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                </span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="js">
+        <script>
+            formTAndS = document.querySelector(".form_teacherAndStudent")
+            function  loadForm(value){
+                switch (value) {
+                    case "0":
+                        formTAndS.setAttribute("hidden","hidden");
+                        break;
+                    case "1":
+                        formTAndS.removeAttribute("hidden");
+                        document.querySelector(".studentAttribute").setAttribute("hidden","hidden")
+                        document.querySelector(".teacherAttribute").removeAttribute("hidden")
+                        document.querySelector(".role").value = "TEACHER";
+                        break;
+                    case "2":
+                        formTAndS.removeAttribute("hidden");
+                        document.querySelector(".teacherAttribute").setAttribute("hidden","hidden")
+                        document.querySelector(".studentAttribute").removeAttribute("hidden")
+                        document.querySelector(".role").value = "USER";
+                        break;
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

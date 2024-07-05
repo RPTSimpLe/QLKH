@@ -7,7 +7,10 @@ import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.NoOpAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
@@ -23,6 +27,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import java.io.IOException;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
 	@Bean
@@ -41,9 +46,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests(http -> http
 				.requestMatchers("/admin**").hasAnyAuthority("ADMIN")
 				.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-						.requestMatchers("/login","/index.js","/auth/**","/css/**","/img/**","/fonts/**","/js/**","/scss/**").permitAll()
-				.requestMatchers("/","/api/**","/user/**").permitAll()
-				.anyRequest().authenticated()).logout(httpLogout -> httpLogout
+				.requestMatchers("/login","/index.js","/auth/**","/css/**","/img/**","/fonts/**","/js/**","/scss/**","/api/**").permitAll()
+//				.requestMatchers(HttpMethod.POST,"/**").permitAll()
+				.requestMatchers("/","/user/**").permitAll()
+				.anyRequest().authenticated()
+				).logout(httpLogout -> httpLogout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/login"))
 				.formLogin(httpLogin ->
@@ -68,7 +75,7 @@ public class SecurityConfig {
 				.and()
 				.build();
 	}
-	
+
 	@Bean
 	RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
 	RememberMeTokenAlgorithm encodingAlgorithm = RememberMeTokenAlgorithm.SHA256;
@@ -78,10 +85,10 @@ public class SecurityConfig {
 	return rememberMe;
 	}
 
-//	@Bean
-//	public LayoutDialect layoutDialect() {
-//	  return new LayoutDialect();
-//	}
+	@Bean
+	public LayoutDialect layoutDialect() {
+	  return new LayoutDialect();
+	}
 
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {

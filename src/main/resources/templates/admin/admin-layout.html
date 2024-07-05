@@ -7,6 +7,9 @@
     <link rel="stylesheet" th:href="@{/adminn/vendors/feather/feather.css}">
     <link rel="stylesheet" th:href="@{/adminn/vendors/ti-icons/css/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/adminn/vendors/css/vendor.bundle.base.css}">
+
+    <link rel="stylesheet" th:href="@{/adminn/vendors/select2/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/adminn/vendors/select2-bootstrap-theme/select2-bootstrap.min.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" th:href="@{/adminn/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
@@ -19,6 +22,36 @@
     <link rel="shortcut icon" th:href="@{/adminn/images/favicon.png}" />
 </head>
 <body>
+<style>
+    .sidebar .nav:not(.sub-menu) > .nav-item.active{
+        background: none;
+    }
+    .sidebar .nav .nav-item .nav-link{
+        border-radius: 0px 0px;
+    }
+    .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link[aria-expanded="true"]{
+        border-radius: 0px 0px;
+    }
+    .sidebar .nav.sub-menu{
+        background: none;
+    }
+    .sidebar .nav.sub-menu .nav-item .nav-link{
+        color: #6C7383;
+    }
+    .sidebar .nav.sub-menu .nav-item::before{
+        content: unset;
+    }
+    .sidebar .nav.sub-menu .nav-item .nav-link{
+        padding: 0.7rem 0rem;
+        font-size: 15px;
+    }
+    .sidebar .nav.sub-menu .nav-item .nav-link:hover{
+        color: #0b7dfd;
+    }
+    .sidebar .nav.sub-menu .nav-item .nav-link.active{
+        color: #0b7dfd;
+    }
+</style>
 <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -100,9 +133,11 @@
                             <i class="ti-settings text-primary"></i>
                             Settings
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" onclick="logout()">
                             <i class="ti-power-off text-primary"></i>
                             Logout
+                            <form th:action="@{/logout}" id="logout" th:method="post">
+                            </form>
                         </a>
                     </div>
                 </li>
@@ -299,15 +334,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <a class="nav-link" data-toggle="collapse" href="#account_menu" aria-expanded="false" aria-controls="account_menu">
                         <i class="icon-layout menu-icon"></i>
                         <span class="menu-title">Tài khoản</span>
                         <i class="menu-arrow"></i>
                     </a>
-                    <div class="collapse" id="ui-basic">
+                    <div class="collapse" id="account_menu">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/admin/createAccount">Thêm tài khoản</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Danh sách tài khoản</a></li>
                             <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
                         </ul>
                     </div>
@@ -382,7 +417,7 @@
                     </a>
                     <div class="collapse" id="auth">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="#" > Login </a></li>
                             <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
                         </ul>
                     </div>
@@ -438,6 +473,20 @@
     <!-- Custom js for this page-->
     <script th:src="@{/adminn/js/dashboard.js}"></script>
     <script th:src="@{/adminn/js/Chart.roundedBarCharts.js}"></script>
+
+    <script th:src="@{/adminn/vendors/typeahead.js/typeahead.bundle.min.js}"></script>
+    <script th:src="@{/adminn/vendors/select2/select2.min.js}"></script>
+    <script th:src="@{/adminn/js/file-upload.js}"></script>
+    <script th:src="@{/adminn/js/typeahead.js}"></script>
+    <script th:src="@{/adminn/js/select2.js}"></script>
+
+    <script th:src="@{/api/api.js}"></script>
+    <script>
+        function logout(){
+            document.getElementById("logout").submit();
+        }
+    </script>
+    <div layout:fragment="js"></div>
     <!-- End custom js for this page-->
 </body>
 </html>

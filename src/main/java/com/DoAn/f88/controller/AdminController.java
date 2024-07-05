@@ -11,4 +11,9 @@ public class AdminController {
     public String homePage() {
         return "admin/homePageAdmin";
     }
+
+    @GetMapping("createAccount")
+    public String createAccount() {
+        return "admin/account/createAccount";
+    }
 }

@@ -1,6 +1,6 @@
 package com.DoAn.f88.utils;
 
-import com.DoAn.f88.exeption.ValidateException;
+import com.DoAn.f88.exeption.Error403.ValidateException;
 
 public class validate {
 	public static Long validateId(String id) {

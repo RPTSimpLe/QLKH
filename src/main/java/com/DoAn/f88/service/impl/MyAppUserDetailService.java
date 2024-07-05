@@ -30,7 +30,7 @@ public class MyAppUserDetailService implements UserDetailsService{
 		public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 			Optional<AccountEntity> userOtp = repository.findByUserName(username);
 			if(userOtp.isEmpty()) {
-				throw new ApplicationException("");
+				throw new ApplicationException("User not found");
 			}
 			AccountEntity entity = userOtp.get();
 

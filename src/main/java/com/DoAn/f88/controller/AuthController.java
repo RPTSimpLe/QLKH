@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 @Controller
-public class LoginController {
+public class AuthController {
 	
 	@GetMapping("login")
 	public String login(
