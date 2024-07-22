@@ -1,6 +1,5 @@
-package com.DoAn.f88.dto.account;
+package com.DoAn.f88.formCreate;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,4 +15,5 @@ public class CreateAccform {
     private String name;
     private String gender;
     private String birthday;
+    private String role = "STUDENT";
 }

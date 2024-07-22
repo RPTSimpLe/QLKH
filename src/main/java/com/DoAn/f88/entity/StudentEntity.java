@@ -14,7 +14,7 @@ public class StudentEntity extends BaseEntity{
     @Id
     @GeneratedValue
     private Long id;
-    private String education;
+    private Integer education;
 
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")

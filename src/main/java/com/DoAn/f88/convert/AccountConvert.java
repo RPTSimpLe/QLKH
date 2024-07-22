@@ -1,7 +1,7 @@
 package com.DoAn.f88.convert;
 
 import com.DoAn.f88.dto.account.AccountDTO;
-import com.DoAn.f88.dto.account.CreateAccform;
+import com.DoAn.f88.formCreate.CreateAccform;
 import com.DoAn.f88.entity.AccountEntity;
 import com.DoAn.f88.entity.RoleEntity;
 import org.springframework.stereotype.Component;
@@ -37,6 +37,10 @@ public class AccountConvert {
             accountDTO.getRoleName().add(roleEntity.getName());
             accountDTO.getRoleCode().add(roleEntity.getCode());
         }
+        accountDTO.setCreatedBy(accountEntity.getCreateBy());
+        accountDTO.setCreatedDate(accountEntity.getCreateDate());
+        accountDTO.setModifierBy(accountEntity.getModifierBy());
+        accountDTO.setModifierDate(accountEntity.getModifierDate());
         return accountDTO;
     }
 }

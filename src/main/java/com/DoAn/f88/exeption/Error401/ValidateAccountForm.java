@@ -1,6 +1,6 @@
 package com.DoAn.f88.exeption.Error401;
 
-import com.DoAn.f88.dto.account.CreateAccform;
+import com.DoAn.f88.formCreate.CreateAccform;
 import com.DoAn.f88.entity.AccountEntity;
 import com.DoAn.f88.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,9 @@ public class ValidateAccountForm {
         if (createAccform.getPhoneNumber().length() != 10){
             throw new AuthException("Số điện thoại phải dài 10 số");
         }
-
+        Optional<AccountEntity> optionalAccountEntityByPhone = accountRepository.findByPhone(createAccform.getPhoneNumber());
+        if (optionalAccountEntityByPhone.isPresent()){
+            throw new AuthException("Số điện thoại đã tồn tại");
+        }
     }
 }

@@ -22,23 +22,32 @@
         }
       } else {
         //for other url
-        if (element.attr('href').indexOf(current) !== -1) {
+        if (current === "admin1") {
           element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-          if (element.parents('.submenu-item').length) {
-            element.addClass('active');
+          return false
+        }else {
+          var now = current.slice(0, -1);
+          if (element.attr('href').indexOf(now) !== -1) {
+            element.parents('.nav-item').last().addClass('active');
+            if (element.parents('.sub-menu').length) {
+              element.closest('.collapse').addClass('show');
+              element.addClass('active');
+            }
+            if (element.parents('.submenu-item').length) {
+              element.addClass('active');
+            }
+            return false
           }
         }
       }
     }
 
-    var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+    var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '') + '1';
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
-      addActiveClass($this);
+      var bool = true;
+      addActiveClass($this) == false ? bool = false : bool;
+      return bool;
     })
 
     $('.horizontal-menu .nav li a').each(function() {

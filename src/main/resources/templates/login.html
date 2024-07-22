@@ -102,6 +102,17 @@
                     <i class="fas fa-birthday-cake"></i>
                     <input type="date" name="birthday" placeholder="Ngày sinh" />
                 </div>
+                <div class="input-field">
+                    <i class="fa fa-graduation-cap"></i>
+                    <select class="select_tag" name="education">
+                        <option value=""> Chọn cấp học hiện tại</option>
+                        <option value="0">Tiểu học</option>
+                        <option value="1">THCS</option>
+                        <option value="3">THPT</option>
+                        <option value="4">Đại học</option>
+                        <option value="5">Đi làm</option>
+                    </select>
+                </div>
                 <span style="color: red; width: 47%" class="text-danger error_signUp"></span>
                 <input type="submit" class="btn" value="Đăng kí" />
                 <p class="social-text">Hoặc đăng kí bằng</p>
@@ -155,7 +166,7 @@
         e.preventDefault();
         let values = formToObject('.sign-up-form')
         console.log(values)
-        post("/api/register",values)
+        post("/api/v1/register",values)
             .then(response => {
                 if(response.message != null){
                     document.querySelector('.error_signUp').innerHTML = response.message

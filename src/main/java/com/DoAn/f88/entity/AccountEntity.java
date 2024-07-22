@@ -36,6 +36,11 @@ public class AccountEntity extends BaseEntity {
 
 	private String birthday;
 
+	private String codeAccount;
+
+	@OneToOne(mappedBy = "account")
+	private StudentEntity studentEntity;
+
 	@ManyToMany(mappedBy = "accounts")
 	private List<RoleEntity> roles = new ArrayList<>();
 
