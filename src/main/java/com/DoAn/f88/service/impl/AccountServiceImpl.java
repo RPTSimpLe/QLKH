@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
         String role = createAccform.getRole().substring(0,1);
         LocalDateTime dateTimeStamp = LocalDateTime.now();
         String year = DateTimeFormatter.ofPattern("YYYY").format(dateTimeStamp);
-        String milisecond = String.valueOf(System.currentTimeMillis()).substring(0, 5);
+        String milisecond = String.valueOf(System.currentTimeMillis());
         String code = role+year+milisecond;
 
         AccountEntity accountEntity = accountConvert.toEntity(createAccform);
@@ -105,6 +105,12 @@ public class AccountServiceImpl implements AccountService {
         studentEntity.setAccount(accountEntity);
         studentRepository.save(studentEntity);
         return accountConvert.toDTO(accountEntity);
+    }
+
+    @Override
+    public AccountDTO getAccount(String username, String email, String phoneNumber, String name, String birthday) {
+
+        return null;
     }
 
     public void checkCreateAccform(CreateAccform createAccform){

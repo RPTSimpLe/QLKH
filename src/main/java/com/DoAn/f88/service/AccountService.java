@@ -12,4 +12,6 @@ public interface AccountService {
     AccountDTO createAdminAccount(CreateAccform form);
     AccountDTO createStudentAccount(StudentCreateForm studentform);
 //    AccountDTO createEmployeeAccount(EmployeeCreateForm employeeform);
+
+    AccountDTO getAccount(String username, String email, String phoneNumber, String name, String birthday);
 }

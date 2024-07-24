@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputName5">Số điện thoại</label>
-                            <input type="text" class="form-control" name="phone" id="exampleInputName5" placeholder="Số điện thoại">
+                            <input type="text" class="form-control" name="phoneNumber" id="exampleInputName5" placeholder="Số điện thoại">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputName7">Ngày sinh</label>
@@ -58,12 +58,19 @@
 <!--                        teacher-->
                         <div class="form-group teacherAttribute">
                             <label for="exampleCertificate">Bằng cấp</label>
-                            <input type="text" class="form-control" name="certificate" id="exampleCertificate" placeholder="Bằng cấp">
+                            <input type="text" class="form-control" name="certificate" id="exampleCertificate" value="Loại bằng cấp" placeholder="Bằng cấp">
                         </div>
 <!--                            student-->
                         <div class="form-group studentAttribute">
                             <label for="exampleEducation">Trình độ học vấn</label>
-                            <input type="text" class="form-control" name="certificate" id="exampleEducation" placeholder="Trình độ học vấn">
+                            <select class="form-control" id="exampleEducation" name="education">
+                                <option value="0">Chọn học vấn</option>
+                                <option value="1">Tiểu học</option>
+                                <option value="2">Trung học cơ sở</option>
+                                <option value="3">Trung học phổ thông</option>
+                                <option value="4">Đại học</option>
+                                <option value="5">Đi làm</option>
+                            </select>
                         </div>
                         <input name="role" class="role" hidden>
                         <div class="form-group">
@@ -102,10 +109,28 @@
                         formTAndS.removeAttribute("hidden");
                         document.querySelector(".teacherAttribute").setAttribute("hidden","hidden")
                         document.querySelector(".studentAttribute").removeAttribute("hidden")
-                        document.querySelector(".role").value = "USER";
+                        document.querySelector(".role").value = "STUDENT";
                         break;
                 }
             }
+
+            let form = document.querySelector(".form_teacherAndStudent")
+            form.addEventListener("submit", (e) =>{
+                e.preventDefault();
+                let formValue = formToObject(".form_teacherAndStudent")
+                let path;
+                switch (formValue.role) {
+                    case "STUDENT" :
+                        path = "/admin/api/v1/account/createStudentAcc";
+                        break;
+                    case "TEACHER":
+                        path = "/admin/api/v1/account/createTeacherAcc";
+                        break;
+                }
+                console.log(formValue)
+                post(path,formValue)
+                    .then(respond => console.log(respond))
+            })
         </script>
     </div>
 </body>
