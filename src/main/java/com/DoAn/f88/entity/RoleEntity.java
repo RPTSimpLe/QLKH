@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "roles")
-public class RoleEntity {
+public class RoleEntity extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,9 @@ public class RoleEntity {
 	@Column(unique = true)
 	private String code;
 
-	@ManyToMany
-	private List<AccountEntity> accounts = new ArrayList<>();
+	private Long parentId;
+
+	@OneToMany(mappedBy = "role")
+	private List<RolesAccountsEntity> rolesAccountsEntities = new ArrayList<>();
 
 }

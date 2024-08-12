@@ -46,6 +46,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(http -> http
 				.requestMatchers("/admin**").hasAnyAuthority("ADMIN")
 				.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+								.requestMatchers("/employee/**").hasAnyAuthority("ADMIN", "E_MANAGER")
 				.requestMatchers("/login","/index.js","/auth/**","/css/**","/img/**","/fonts/**","/js/**","/scss/**","/api/**").permitAll()
 //				.requestMatchers(HttpMethod.POST,"/**").permitAll()
 				.requestMatchers("/","/user/**").permitAll()

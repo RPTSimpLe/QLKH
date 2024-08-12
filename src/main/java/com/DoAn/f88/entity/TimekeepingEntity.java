@@ -15,7 +15,7 @@ public class TimekeepingEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    private TeacherEntity teacher;
+    private EmployeeEntity teacher;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

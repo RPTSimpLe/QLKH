@@ -31,5 +31,5 @@ public class BaseEntity {
 	private String modifierBy;
 	@Column(nullable = false)
 	@ColumnDefault("0")
-	private Boolean deleted = false;
+	private Boolean isDeleted = false;
 }

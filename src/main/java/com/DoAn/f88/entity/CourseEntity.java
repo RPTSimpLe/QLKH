@@ -15,8 +15,10 @@ public class CourseEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String code;
+    private Integer duration;
     private String description;
-    private Long numberPreiod;
+    private Integer numberPreiod;
     private Long price;
 
     @OneToMany(mappedBy = "course")

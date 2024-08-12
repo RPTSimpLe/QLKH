@@ -170,6 +170,8 @@
             .then(response => {
                 if(response.message != null){
                     document.querySelector('.error_signUp').innerHTML = response.message
+                }else {
+                    window.location.href="/login"
                 }
             })
     })

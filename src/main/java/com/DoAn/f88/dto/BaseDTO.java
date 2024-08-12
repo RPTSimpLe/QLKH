@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class BaseDTO {
-    private Integer deleted;
+    private Boolean isDeleted;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date createdDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

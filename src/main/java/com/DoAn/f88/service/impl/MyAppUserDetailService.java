@@ -2,6 +2,7 @@ package com.DoAn.f88.service.impl;
 
 import com.DoAn.f88.entity.RoleEntity;
 import com.DoAn.f88.entity.AccountEntity;
+import com.DoAn.f88.entity.RolesAccountsEntity;
 import com.DoAn.f88.exeption.ApplicationException;
 import com.DoAn.f88.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class MyAppUserDetailService implements UserDetailsService{
 			AccountEntity entity = userOtp.get();
 
 			List<GrantedAuthority> roles = new ArrayList<>();
-			
-			List<RoleEntity> roleEntities = entity.getRoles();
-			for (RoleEntity roleEntity : roleEntities) {
-				GrantedAuthority authority = new SimpleGrantedAuthority(roleEntity.getCode());
+			List<RolesAccountsEntity> rolesAccountsEntityList = entity.getRolesAccountsEntities();
+
+			for (RolesAccountsEntity rolesAccountsEntity : rolesAccountsEntityList) {
+				GrantedAuthority authority = new SimpleGrantedAuthority(rolesAccountsEntity.getRole().getCode());
 				roles.add(authority);
 			}
 			

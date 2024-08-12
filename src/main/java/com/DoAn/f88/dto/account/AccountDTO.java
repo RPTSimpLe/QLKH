@@ -15,17 +15,20 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AccountDTO extends BaseDTO {
+public class AccountDTO <T> extends BaseDTO {
 	
 	private Long id;
 
 	private String username;
-	private String password;
 	private String email;
 	private String phoneNumber;
 	private String name;
-	private String gender;
+	private Integer gender;
 	private String birthday;
+	private String codeAccount;
+	private T extendAttribute;
+	private Long imageId;
+	private String url;
 	
 	private List<String> roleName = new ArrayList<String>();
 	private List<String> roleCode = new ArrayList<>();

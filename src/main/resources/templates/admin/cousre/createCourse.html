@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm khóa học</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thêm khóa học</h4>
+                    <form class="forms-sample formCourse" >
+                        <div class="form-group">
+                            <label for="exampleInputName6">Tên: </label>
+                            <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Tên khóa học">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputName1">Mã: </label>
+                            <input type="text" class="form-control" name="code" id="exampleInputName1" placeholder="Mã khóa học">
+                        </div>
+                        <div class="form-group">
+                            <label>Số buổi học</label>
+                            <input type="number" class="form-control" name="numberPreiod" placeholder="Số buổi học" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Số giờ học (tính theo giờ)</label>
+                            <input type="number" class="form-control" name="duration" placeholder="Số giờ học" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Giá</label>
+                            <input type="number" class="form-control" name="price" placeholder="Giá" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả</label>
+                            <input type="text" class="form-control" name="description" placeholder="Mô tả">
+                        </div>
+                        <div class="form-group d-flex flex-column">
+                            <h6 class="text-danger message_text"></h6>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Thêm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="js">
+        <script>
+            document.querySelector(".formCourse").addEventListener("submit",(e) =>{
+                e.preventDefault();
+                let formValue = formToObject(".formCourse")
+                if (formValue.description == ""){
+                    formValue.description = "Không có ghi chú"
+                }
+                console.log(formValue)
+                post(`/api/v1/course/admin/create`,formValue)
+                    .then(respond =>{
+                        if (respond.message == null){
+                            window.location.href = "/admin/courseView/listCourse"
+                        }else {
+                            document.querySelector(".message_text").innerHTML = respond.message
+                        }
+                    })
+            })
+        </script>
+    </div>
+</body>
+</html>

@@ -1,8 +1,11 @@
-package com.DoAn.f88.formCreate;
+package com.DoAn.f88.request.account;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ public class CreateAccform {
     private String email;
     private String phoneNumber;
     private String name;
-    private String gender;
+    private Integer gender;
     private String birthday;
-    private String role = "STUDENT";
+    private List<String> role = new ArrayList<>();
 }

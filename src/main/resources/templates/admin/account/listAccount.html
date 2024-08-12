@@ -9,173 +9,621 @@
 <body>
     <div layout:fragment="content">
         <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Danh sách tài khoản</h4>
-                <div class="table-responsive pt-3">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                First name
-                            </th>
-                            <th>
-                                Progress
-                            </th>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Deadline
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                Herman Beck
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Danh sách tài khoản</h4>
+                    <form class="search">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Mã: </label>
+                                    <input type="text" name="sCode" class="form-control">
                                 </div>
-                            </td>
-                            <td>
-                                $ 77.99
-                            </td>
-                            <td>
-                                May 15, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2
-                            </td>
-                            <td>
-                                Messsy Adam
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" name="sUserName">
                                 </div>
-                            </td>
-                            <td>
-                                $245.30
-                            </td>
-                            <td>
-                                July 1, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                3
-                            </td>
-                            <td>
-                                John Richards
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Họ tên</label>
+                                    <input type="text" name="sName" class="form-control">
                                 </div>
-                            </td>
-                            <td>
-                                $138.00
-                            </td>
-                            <td>
-                                Apr 12, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                4
-                            </td>
-                            <td>
-                                Peter Meggik
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="">Vai trò</label>
+                                    <select class="form-control roleSelect" id="" name="sRoleCode">
+                                        <optgroup label="" class="optGroup" role=""> </optgroup>
+                                    </select>
                                 </div>
-                            </td>
-                            <td>
-                                $ 77.99
-                            </td>
-                            <td>
-                                May 15, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                5
-                            </td>
-                            <td>
-                                Edward
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Số điện thoại</label>
+                                    <input type="text" name="sPhoneNumber" class="form-control">
                                 </div>
-                            </td>
-                            <td>
-                                $ 160.25
-                            </td>
-                            <td>
-                                May 03, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                6
-                            </td>
-                            <td>
-                                John Doe
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Email</label>
+                                    <input type="text" name="sEmail" class="form-control">
                                 </div>
-                            </td>
-                            <td>
-                                $ 123.21
-                            </td>
-                            <td>
-                                April 05, 2015
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                7
-                            </td>
-                            <td>
-                                Henry Tom
-                            </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName11">Ngày sinh</label>
+                                    <input type="date" name="sBirthday" class="form-control">
                                 </div>
-                            </td>
-                            <td>
-                                $ 150.00
-                            </td>
-                            <td>
-                                June 16, 2015
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                            <div class="col-3">
+                                    <button type="submit" style="margin-top: 8%" class="btn btn-primary mb-2">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Mã
+                                </th>
+                                <th>
+                                    Họ tên
+                                </th>
+                                <th>
+                                    Tên đăng nhập
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Số điện thoại
+                                </th>
+                                <th>
+                                    Vai trò
+                                </th>
+                                <th>
+                                    Ngày tạo/sửa
+                                </th>
+                                <th>
+                                    Người tạo/sửa
+                                </th>
+                                <th>
+                                    Chức năng
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="body_table_listAcc">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="pagi"></div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chi Tiết</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-3 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body imageModal">
+                                        <img id="avatar" >
+                                        <form class="forms-sample formImage">
+                                            <input type="text" class="form-control" name="imageId" hidden="hidden">
+                                            <div class="form-group">
+                                                <label>Ảnh đại diện</label>
+                                                <input type="file" multiple name="file" onchange="renderImg()"  class="file-upload-default">
+                                                <div class="input-group col-xs-12">
+                                                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                                    <span class="input-group-append">
+                                                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <h6 class="text-danger message_text1"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Cập nhật</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="forms-sample detailForm">
+                                            <input name="id" type="text" hidden="hidden">
+                                            <div class="form-group">
+                                                <label for="exampleInputName11">Mã</label>
+                                                <input type="text" class="form-control accountCode" id="exampleInputName11" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName6">Họ tên</label>
+                                                <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Họ tên">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Tên đăng nhập</label>
+                                                <input type="text" class="form-control" name="username" disabled id="exampleInputName1" placeholder="Tên đăng nhập">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName7">Ngày sinh</label>
+                                                <input type="date" class="form-control" name="birthday" id="exampleInputName7" placeholder="Ngày sinh">
+                                            </div>
+                                            <div class="form-group genderAttribute">
+                                                <label for="exampleSelectGender">Giới tính</label>
+                                                <select class="form-control" id="exampleSelectGender" name="gender">
+                                                    <option value="">Chọn giới tính</option>
+                                                    <option value="0">Nam</option>
+                                                    <option value="1">Nữ</option>
+                                                    <option value="2">Khác</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group teacherAttribute">
+                                                <label for="exampleCertificate">Bằng cấp</label>
+                                                <input type="text" class="form-control" name="certificate" id="exampleCertificate" value="Loại bằng cấp" placeholder="Bằng cấp">
+                                            </div>
+
+                                            <div class="form-group studentAttribute">
+                                                <label for="exampleEducation">Trình độ học vấn</label>
+                                                <select class="form-control" id="exampleEducation" name="education">
+                                                    <option value="0">Chọn học vấn</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <label>Vai trò</label>
+                                                <div class="row" style="margin-left: 0%" >
+                                                    <input type="text" disabled class="form-control col-10" data-value="" name="role" >
+                                                    <div class="dropdown col-1">
+                                                        <button type="button" class="btn btn-outline-info dropdown-toggle" id="dropdownMenuIconButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Vai trò
+                                                        </button>
+                                                        <div class="dropdown-menu roleMenu" aria-labelledby="dropdownMenuIconButton3">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <h6 class="text-danger message_text2"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Cập nhật</button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="forms-sample formEmail">
+                                            <div class="form-group">
+                                                <label for="exampleInputName5">Email: </label>
+                                                <input type="email" class="form-control" name="email" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="newEmail" placeholder="Email mới" aria-label="">
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <h6 class="text-danger message_text3"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-success"  onclick="updateEmail()">Cập nhật</button>
+                                        </form>
+
+                                        <form class="forms-sample formPhone">
+                                            <div class="form-group">
+                                                <label for="exampleInputName5">Số điện thoại: </label>
+                                                <input type="text" class="form-control" name="phoneNumber" disabled id="exampleInputName5">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="newPhoneNumber" placeholder="Số điện thoại mới" aria-label="">
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <h6 class="text-danger message_text4"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-success" onclick="updatePhone()">Cập nhật</button>
+                                        </form>
+
+                                        <form class="forms-sample formPass">
+                                            <div class="form-group">
+                                                <label for="exampleInputName5">Đặt lại mật khẩu: </label>
+                                                <input type="password" class="form-control" name="password" placeholder="Mật khẩu mới">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="confirmPass" placeholder="Nhập lại mật khẩu mới" aria-label="">
+                                            </div>
+                                            <div class="form-group d-flex flex-column">
+                                                <h6 class="text-danger message_text5"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-success"  onclick="updatePass()">Cập nhật</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div layout:fragment="js">
+        <script>
+            let searchForm = {}
+            let limit =5
 
+            function renderList(data,page,limit) {
+                let firstItem = ((page-1)*limit)+1
+                let html = ''
+                let sTT = firstItem
+                for (const account of data) {
+                    html +=
+                        `<tr id="account_${account.id}">
+                                <td>${sTT}</td>
+                                <td>
+                                    ${account.codeAccount}
+                                </td>
+                                <td>
+                                    ${account.name}
+                                </td>
+                                <td>
+                                    ${account.username}
+                                </td>
+                                <td>
+                                    ${account.email}
+                                </td>
+                                <td>
+                                    ${account.phoneNumber}
+                                </td>
+                                <td>
+                                    ${account.roleName}
+                                </td>
+                                <td>
+                                    ${account.modifierDate}
+                                </td>
+                                  <td>
+                                    ${account.modifierBy}
+                                </td>
+                                <td>
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" onclick="detail(${account.id})">Chi tiết</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteAcc(${account.id})">Xóa</button>
+                                </td>
+                            </tr>`
+                    sTT += 1
+                }
+                document.querySelector(".body_table_listAcc").innerHTML = html
+            }
+
+            function getAccountListAndRender({page, limit}) {
+                get("/api/v1/account/admin/getAll", {page, limit, ...searchForm})
+                    .then(respond => {
+                        let {totalItems, page, limit} = respond
+                        renderList(respond.data,page,limit)
+                        _$("#pagi").pagination("destroy")
+
+                        showPagination({
+                            totalItems: totalItems,
+                            limit: limit,
+                            currentPage: page,
+                            onPageClick: function (pageNumber) {
+                                getAccountListAndRender({page: pageNumber, limit})
+                            }
+                        })
+                    })
+            }
+
+           function renderRole(roleName) {
+               get("/api/v1/role/admin/getAll")
+                   .then(respond => {
+                       let html = '';
+                       for (const role of respond) {
+                           if (roleName == role.name){
+                               document.querySelector('input[name="role"]').value = roleName
+                               document.querySelector('input[name="role"]').setAttribute("data-value",role.code )
+                           }
+                           html += ` <a class="dropdown-item" roleCode="${role.code}" onclick="addRoleToInput(this)">${role.name}</a>`
+                       }
+                       document.querySelector(".roleMenu").innerHTML=html
+                   })
+           }
+
+            getAccountListAndRender({page: 1, limit: limit})
+
+            let detailForm = document.querySelector(".detailForm")
+
+            function detail(id) {
+                get("/api/v1/account/findById/" + id)
+                    .then(account => {
+                        document.querySelector('input[name="id"]').value = account.id
+                        document.querySelector(".accountCode").value = account.codeAccount
+                        document.querySelector('input[name="name"]').value = account.name;
+                        document.querySelector('input[name="username"]').value = account.username;
+                        document.querySelector('input[name="email"]').value = account.email;
+                        document.querySelector('input[name="phoneNumber"]').value = account.phoneNumber;
+                        document.querySelector('input[name="birthday"]').value = account.birthday;
+                        document.querySelector('input[name="imageId"]').value = account.imageId;
+                        document.getElementById("avatar").setAttribute("src",account.url)
+                        renderGender(account.gender)
+                        renderRole(account.roleName)
+                        for (const role of account.roleCode) {
+                            if (role == "STUDENT") {
+                                document.querySelector('.teacherAttribute').setAttribute("hidden", "hidden")
+                                document.querySelector('.studentAttribute').removeAttribute("hidden")
+                                renderSelectEducation(account.extendAttribute)
+                                document.querySelector('input[name="certificate"]').value = "null ";
+                            } else if (role == "TEACHER") {
+                                document.querySelector('.studentAttribute').setAttribute("hidden", "hidden")
+                                document.querySelector('.teacherAttribute').removeAttribute("hidden")
+                                document.querySelector('input[name="certificate"]').value = account.extendAttribute;
+                                document.querySelector('select[name="education"]').value = "0";
+                            }
+                        }
+                    })
+            }
+
+            function renderSelectEducation(number) {
+                let value
+                switch (number) {
+                    case 1:
+                        value = ' <option value="1">Tiểu học</option>'
+                        break;
+                    case 2:
+                        value = '<option value="2">Trung học cơ sở</option>'
+                        break;
+                    case 3:
+                        value = '<option value="3">Trung học cơ sở</option>'
+                        break;
+                    case 4:
+                        value = '<option value="4">Đại học</option>'
+                        break;
+                    case 5:
+                        value = '<option value="5">Đi làm</option>'
+                        break;
+                }
+                let html = value;
+                html +=
+                    ` <option value="0">Chọn học vấn</option>
+                    <option value="1">Tiểu học</option>
+                    <option value="2">Trung học cơ sở</option>
+                    <option value="3">Trung học phổ thông</option>
+                    <option value="4">Đại học</option>
+                    <option value="5">Đi làm</option>`
+
+                document.querySelector('select[name="education"]').innerHTML = html;
+            }
+
+            function renderGender(number) {
+                let gender;
+                switch (number) {
+                    case 0:
+                        gender = `<option value="0">Nam</option>`
+                        break;
+                    case 1:
+                        gender = `<option value="1">Nữ</option>`
+                        break;
+                    case 2:
+                        gender = `<option value="2">Khác</option>`
+                        break;
+                }
+                let html = gender
+                html += `<option value="">Chọn giới tính</option>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Khác</option>`
+                document.getElementById("exampleSelectGender").innerHTML = html
+            }
+            function addRoleToInput(element) {
+                let roleInput = document.querySelector('input[name="role"]')
+                let roleInputCode = roleInput.value.split(",").filter(item => item !== "");
+                let newRoleInput= []
+
+                if (roleInputCode[0] !== undefined){
+                    let count=0
+                    for (const roleInputValue of roleInputCode) {
+                        if (roleInputValue !== element.innerHTML){
+                            newRoleInput.push(roleInputValue)
+                        }else {
+                            count++
+                        }
+                    }
+                    if (count===0){
+                        newRoleInput.push(element.innerHTML)
+                    }
+                }else {
+                    newRoleInput.push(element.innerHTML);
+                }
+                roleInput.value = newRoleInput
+            }
+            document.querySelector(".detailForm").addEventListener("submit", (e)=>{
+                e.preventDefault()
+                let formValue= formToObject(".detailForm")
+                let role;
+                if (document.querySelector('input[name="role"]').getAttribute("data-value").split(",").filter(item => item === "STUDENT")[0] !== undefined){
+                    role= "student"
+                }else  if (document.querySelector('input[name="role"]').getAttribute("data-value").split(",").filter(item => item === "ADMIN")[0] !== undefined){
+                    role= "admin"
+                }else{
+                   role = "employee"
+                }
+                put(`/api/v1/account/${role}/${formValue.id}`,formValue)
+                    .then(respond =>{
+                        if(respond.message == null){
+                            alert("Cập nhật thành công")
+                            window.location.href = "/admin/accountView/listAccount"
+                        }else {
+                            document.querySelector(".message_text2").innerHTML = respond.message
+                        }
+                    })
+            })
+            function deleteAcc(id) {
+                if (confirm("Ban muốn xóa?")){
+                    deleteMapping(`/api/v1/account/admin/delete/${id}`)
+                        .then(respond =>{
+                            if(respond.message == null){
+                                const element = document.querySelector('#account_' + id);
+                                element.remove();
+                                alert("Xóa thành công")
+                            }else {
+                                document.querySelector(".message_text").innerHTML = respond.message
+                            }
+                        })
+                }
+            }
+
+            function renderImg() {
+                let file = document.querySelector('input[name="file"]').files[0]
+                document.getElementById("avatar").setAttribute("src",URL.createObjectURL(file))
+            }
+            document.querySelector(".formImage").addEventListener("submit",(e)=>{
+                e.preventDefault();
+                let img = document.querySelector('input[name="file"]')
+                let formValue= new FormData()
+                formValue.append("id",  document.querySelector('input[name="id"]').value)
+                formValue.append("imageId",  document.querySelector('input[name="imageId"]').value)
+                formValue.append("file",  img.files[0])
+
+                putImages("/api/v1/images/updateImages",formValue)
+                    .then(respond => {
+                        if(respond.message != null){
+                            document.querySelector(".message_text1").innerHTML = respond.message
+                        }else {
+                            alert("Cập nhật ảnh thành công")
+                        }
+                    })
+            })
+            function updateEmail(){
+                document.querySelector(".formEmail").addEventListener("submit",(e) => {
+                    e.preventDefault();
+                    let formValue = {
+                        id : document.querySelector('input[name="id"]').value,
+                        attribute: document.querySelector('input[name="email"]').value,
+                        newAttribute: document.querySelector('input[name="newEmail"]').value
+                    }
+
+                    put("/api/v1/account/updateEmail", formValue)
+                        .then(respond =>{
+                            if(respond.message != null){
+                                document.querySelector(".message_text3").innerHTML = respond.message
+                            }else {
+                                alert("Cập nhật email thành công")
+                                document.querySelector('input[name="email"]').value = document.querySelector('input[name="newEmail"]').value
+                                resetInput("newEmail")
+                            }
+                        })
+                })
+            }
+
+            function updatePhone(){
+                document.querySelector(".formPhone").addEventListener("submit",(e) => {
+                    e.preventDefault();
+                    let formValue = {
+                        id :  document.querySelector('input[name="id"]').value,
+                        attribute: document.querySelector('input[name="phoneNumber"]').value,
+                        newAttribute: document.querySelector('input[name="newPhoneNumber"]').value
+                    }
+
+                    put("/api/v1/account/updatePhone", formValue)
+                        .then(respond =>{
+                            if(respond.message != null){
+                                document.querySelector(".message_text4").innerHTML = respond.message
+                            }else {
+                                alert("Cập nhật số điện thoại thành công")
+                                document.querySelector('input[name="phoneNumber"]').value = document.querySelector('input[name="newPhoneNumber"]').value
+                                resetInput("newPhoneNumber")
+                            }
+                        })
+                })
+            }
+
+            function updatePass(){
+                document.querySelector(".formPass").addEventListener("submit", (e) => {
+                    e.preventDefault();
+
+                    let formValue = {
+                        id : document.querySelector('input[name="id"]').value,
+                        attribute: document.querySelector('input[name="password"]').value,
+                        newAttribute: document.querySelector('input[name="confirmPass"]').value
+                    }
+
+                    try {
+                        if (formValue.attribute !== formValue.newAttribute) {
+                            throw new Error("Mật khẩu không khớp");
+                        }
+                        put("/api/v1/account/admin/resetPassword", formValue)
+                            .then(respond =>{
+                                if(respond.message != null){
+                                    document.querySelector(".message_text5").innerHTML = respond.message
+                                }else {
+                                    alert("Cập nhật mật khẩu thành công")
+                                    document.querySelector('input[name="password"]').value = document.querySelector('input[name="confirmPass"]').value
+                                    resetInput("confirmPass")
+                                }
+                            })
+                    } catch (e) {
+                        document.querySelector(".message_text5").innerHTML = e.message
+                    }
+
+                });
+            }
+
+            function resetInput(name){
+                document.querySelector(`input[name=${name}]`).value = ""
+            }
+
+            get("/api/v1/role/admin/getAll")
+                .then(data => {
+                    let html = `  <option value="">Chọn vai trò</option>`;
+                    for (const role of data) {
+                        if (role.parentId === 0) {
+                            if (role.code === "ADMIN"){
+                                html+= `<optgroup label="${role.name}" class="optGroup1" role="${role.id}"><option value="${role.code}">${role.name}</option></optgroup>`
+                            }else {
+                                html += ` <optgroup label="${role.name}" class='optGroup' role="${role.id}"> </optgroup>`
+                            }
+                        }
+                    }
+                    document.querySelector(".roleSelect").innerHTML = html
+
+                    let otpGroups = document.querySelectorAll(".optGroup")
+                    for (const otpGroup of otpGroups) {
+                        let option=``
+                        for (const role of data) {
+                            if (role.parentId.toString() === otpGroup.getAttribute("role")) {
+                                option += `<option value="${role.code}">${role.name}</option>`
+                            }
+                        }
+                        otpGroup.innerHTML = option
+                    }
+                })
+
+            document.querySelector(".search").addEventListener("submit", (e)=>{
+                e.preventDefault();
+                searchForm = formToObject(".search  ")
+                getAccountListAndRender({
+                    page: 1,
+                    limit: limit,
+                })
+            })
+        </script>
     </div>
 </body>
 </html>

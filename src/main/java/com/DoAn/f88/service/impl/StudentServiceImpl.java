@@ -3,7 +3,7 @@ package com.DoAn.f88.service.impl;
 import com.DoAn.f88.convert.StudentConvert;
 import com.DoAn.f88.dto.StudentDTO;
 import com.DoAn.f88.entity.StudentEntity;
-import com.DoAn.f88.formCreate.StudentCreateForm;
+import com.DoAn.f88.request.student.StudentCreateForm;
 import com.DoAn.f88.repository.StudentRepository;
 import com.DoAn.f88.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO createStudent(StudentCreateForm createForm) {
-        StudentEntity studentEntity= studentConvert.toEntity(createForm);
+        StudentEntity studentEntity= new StudentEntity();
+        studentConvert.toEntity(createForm, studentEntity);
         studentRepository.save(studentEntity);
         return studentConvert.toDTO(studentEntity);
     }

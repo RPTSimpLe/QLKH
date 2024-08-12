@@ -16,12 +16,12 @@
                         <label for="exampleSelectGen">Thêm tài khoản cho: </label>
                         <select class="form-control" id="exampleSelectGen" onchange="loadForm(this.value)">
                             <option>Chọn</option>
-                            <option value="0">Nhân viên</option>
-                            <option value="1">Giáo viên</option>
+                            <option value="0">Admin</option>
+                            <option value="1">Nhân viên</option>
                             <option value="2">Học viên</option>
                         </select>
                     </div>
-                    <form class="forms-sample form_teacherAndStudent" hidden>
+                    <form class="forms-sample form_employeeAndUser" hidden>
                         <div class="form-group">
                             <label for="exampleInputName6">Họ tên</label>
                             <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Họ tên">
@@ -55,12 +55,12 @@
                                 <option value="2">Khác</option>
                             </select>
                         </div>
-<!--                        teacher-->
-                        <div class="form-group teacherAttribute">
+
+                        <div class="form-group employeeAttribute">
                             <label for="exampleCertificate">Bằng cấp</label>
                             <input type="text" class="form-control" name="certificate" id="exampleCertificate" value="Loại bằng cấp" placeholder="Bằng cấp">
                         </div>
-<!--                            student-->
+
                         <div class="form-group studentAttribute">
                             <label for="exampleEducation">Trình độ học vấn</label>
                             <select class="form-control" id="exampleEducation" name="education">
@@ -72,19 +72,34 @@
                                 <option value="5">Đi làm</option>
                             </select>
                         </div>
-                        <input name="role" class="role" hidden>
+                        <div class="form-group d-flex flex-column">
+                            <label>Vai trò</label>
+                            <div class="row" style="margin-left: 0%" >
+                                <input type="text" disabled class="form-control col-10" data-value="" name="role" >
+                                <div class="dropdown col-1">
+                                    <button type="button" class="btn btn-outline-info dropdown-toggle" id="dropdownMenuIconButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Vai trò
+                                    </button>
+                                    <div class="dropdown-menu roleMenu" aria-labelledby="dropdownMenuIconButton3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Ảnh đại diện</label>
-                            <input type="file" name="img[]" class="file-upload-default">
+                            <input type="file" multiple name="file" onchange="renderImg()"  class="file-upload-default">
                             <div class="input-group col-xs-12">
                                 <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                 <span class="input-group-append">
-                                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                    <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                                 </span>
                             </div>
+                            <img id="avatar" style="width: 20%; height: 20%" >
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <div class="form-group">
+                            <h6 class="text-danger message_text"></h6>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Thêm</button>
                     </form>
                 </div>
             </div>
@@ -93,8 +108,14 @@
 
     <div layout:fragment="js">
         <script>
-            formTAndS = document.querySelector(".form_teacherAndStudent")
+            function renderImg() {
+                let file = document.querySelector('input[name="file"]').files[0]
+                document.getElementById("avatar").setAttribute("src",URL.createObjectURL(file))
+            }
+            formTAndS = document.querySelector(".form_employeeAndUser")
+
             function  loadForm(value){
+                let roleCode = ''
                 switch (value) {
                     case "0":
                         formTAndS.setAttribute("hidden","hidden");
@@ -102,35 +123,100 @@
                     case "1":
                         formTAndS.removeAttribute("hidden");
                         document.querySelector(".studentAttribute").setAttribute("hidden","hidden")
-                        document.querySelector(".teacherAttribute").removeAttribute("hidden")
-                        document.querySelector(".role").value = "TEACHER";
+                        document.querySelector(".employeeAttribute").removeAttribute("hidden")
+                        roleCode = "EMPLOYEE"
                         break;
                     case "2":
                         formTAndS.removeAttribute("hidden");
-                        document.querySelector(".teacherAttribute").setAttribute("hidden","hidden")
+                        document.querySelector(".employeeAttribute").setAttribute("hidden","hidden")
                         document.querySelector(".studentAttribute").removeAttribute("hidden")
-                        document.querySelector(".role").value = "STUDENT";
+                        roleCode = "USER";
                         break;
+
                 }
+                renderRole(roleCode)
             }
 
-            let form = document.querySelector(".form_teacherAndStudent")
+            let form = document.querySelector(".form_employeeAndUser")
             form.addEventListener("submit", (e) =>{
                 e.preventDefault();
-                let formValue = formToObject(".form_teacherAndStudent")
+                let formValue = formToObject(".form_employeeAndUser")
+                formValue["role"] = document.querySelector('input[name="role"]').getAttribute("data-value").toString().split(",")
                 let path;
-                switch (formValue.role) {
-                    case "STUDENT" :
-                        path = "/admin/api/v1/account/createStudentAcc";
+                switch (document.querySelector('input[name="role"]').getAttribute("roleCode")) {
+                    case "USER" :
+                        path = "/api/v1/account/admin/createStudentAcc";
                         break;
-                    case "TEACHER":
-                        path = "/admin/api/v1/account/createTeacherAcc";
+                    case "ADMIN":
+                        path = "/api/v1/account/admin/createAdminAcc";
+                        break;
+                    default :
+                        path = "/api/v1/account/admin/createEmployeeAcc";
                         break;
                 }
-                console.log(formValue)
+
                 post(path,formValue)
-                    .then(respond => console.log(respond))
+                    .then(respond => {
+                        if (respond.message != null){
+                            document.querySelector(".message_text").innerHTML = respond.message
+                        }else {
+                            let img = document.querySelector('input[name="file"]')
+                            let imagesValue= new FormData()
+                            imagesValue.append("id",  respond.id)
+                            imagesValue.append("file",  img.files[0])
+
+                            postImages("/api/v1/images/addImages",imagesValue)
+                                .then()
+
+                            window.location.href = "/admin/accountView/listAccount";
+                        }
+                })
             })
+            function renderRole(roleCode) {
+                let html = '';
+                if (roleCode === "ADMIN"){
+                    document.querySelector('input[name="role"]').value = "admin"
+                    document.querySelector('input[name="role"]').setAttribute("data-value",roleCode)
+                } else {
+                    get(`/api/v1/role/admin/findByRoleCode/${roleCode}`)
+                        .then(respond => {
+                            for (const role of respond) {
+                                html += ` <a class="dropdown-item" roleCode="${role.code}" onclick="addRoleToInput(this)">${role.name}</a>`
+                            }
+                            document.querySelector(".roleMenu").innerHTML=html
+                        })
+                }
+                document.querySelector('input[name="role"]').setAttribute("roleCode",roleCode)
+            }
+
+            function addRoleToInput(element) {
+                let roleInput = document.querySelector('input[name="role"]')
+                let roleInputName = roleInput.value.split(",").filter(item => item !== "");
+                let roleCodeInput = roleInput.getAttribute("data-value").toString().split(",").filter(item => item !== "")
+                let newRoleInput= []
+                let newRoleCodeInput= []
+
+                if (roleInputName[0] !== undefined){
+                    let count=0
+                    for (let i=0; i < roleInputName.length;i++) {
+                        if (roleInputName[i] !== element.innerHTML){
+                            newRoleInput.push(roleInputName[i])
+                            newRoleCodeInput.push(roleCodeInput[i])
+                        }else {
+                            count++
+                        }
+                    }
+                    if (count===0){
+                        newRoleInput.push(element.innerHTML)
+                        newRoleCodeInput.push(element.getAttribute("roleCode"))
+                    }
+                }else {
+                    newRoleInput.push(element.innerHTML);
+                    newRoleCodeInput.push(element.getAttribute("roleCode"))
+                }
+                roleInput.value = newRoleInput
+                roleInput.setAttribute("data-value",newRoleCodeInput.toString())
+            }
         </script>
     </div>
 </body>

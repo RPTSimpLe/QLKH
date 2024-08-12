@@ -3,7 +3,6 @@ package com.DoAn.f88.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +31,21 @@ public class AccountEntity extends BaseEntity {
 
 	private String name;
 
-	private String gender;
+	private Integer gender;
 
 	private String birthday;
 
+	@Column(unique = true)
 	private String codeAccount;
 
 	@OneToOne(mappedBy = "account")
 	private StudentEntity studentEntity;
 
-	@ManyToMany(mappedBy = "accounts")
-	private List<RoleEntity> roles = new ArrayList<>();
+	@OneToOne(mappedBy = "account")
+	private EmployeeEntity employeeEntity;
+
+	@OneToMany(mappedBy = "account")
+	private List<RolesAccountsEntity> rolesAccountsEntities = new ArrayList<>();
 
 	@OneToOne
 	@JoinColumn(name = "image_id", referencedColumnName = "id")

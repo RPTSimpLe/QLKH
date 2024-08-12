@@ -20,6 +20,7 @@
     <link rel="stylesheet" th:href="@{/adminn/css/vertical-layout-light/style.css}">
     <!-- endinject -->
     <link rel="shortcut icon" th:href="@{/adminn/images/favicon.png}" />
+    <link rel="stylesheet" th:href="@{/js/simplePagination.css}">
 </head>
 <body>
 <style>
@@ -50,6 +51,44 @@
     }
     .sidebar .nav.sub-menu .nav-item .nav-link.active{
         color: #0b7dfd;
+    }
+    .table th, .jsgrid .jsgrid-table th, .table td, .jsgrid .jsgrid-table td{
+        padding: 1.125rem ;
+    }
+    .table td, .jsgrid .jsgrid-table td {
+        font-size: 1rem;
+    }
+    .modal .modal-dialog .modal-content .modal-header {
+        padding: 8px 26px;
+    }
+    .modal .modal-dialog .modal-content .modal-header .close span {
+        font-size: 34px;
+        font-weight: 400;
+        color: #6a6a6a;
+    }
+    #pagi{
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        font-size: 0.95rem;
+    }
+    select.form-control
+    {
+        color: black;
+    }
+    @media (min-width: 576px) {
+        .modal-dialog {
+            max-width: 1600px;
+            margin: 30px auto;
+        }
+    }
+    .imageModal img {
+        width: 100%;
+        /*height: ;*/
+        margin: 0;
     }
 </style>
 <div class="container-scroller">
@@ -126,7 +165,7 @@
                 </li>
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" th:href="@{/adminn/#}" data-toggle="dropdown" id="profileDropdown">
-                        <img th:src="@{/adminn/images/faces/face28.jpg}" alt="profile"/>
+                        <img class="imgAvatar" alt="profile"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item">
@@ -335,7 +374,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#account_menu" aria-expanded="false" aria-controls="account_menu">
-                        <i class="icon-layout menu-icon"></i>
+                        <i class="icon-head menu-icon"></i>
                         <span class="menu-title">Tài khoản</span>
                         <i class="menu-arrow"></i>
                     </a>
@@ -343,7 +382,32 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" th:href="@{/admin/createAccount}">Thêm tài khoản</a></li>
                             <li class="nav-item"> <a class="nav-link" th:href="@{/admin/accountView/listAccount}">Danh sách tài khoản</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#role_menu" aria-expanded="false" aria-controls="role_menu">
+                        <i class="icon-layout menu-icon"></i>
+                        <span class="menu-title">Vai trò</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="role_menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/roleView/createRole}">Thêm vai trò</a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/roleView/listRole}">Danh sách vai trò</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#course_menu" aria-expanded="false" aria-controls="course_menu">
+                        <i class="icon-layout menu-icon"></i>
+                        <span class="menu-title">Khóa học</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="course_menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/courseView/createCourse}">Thêm khóa học</a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/courseView/listCourse}">Danh sách khóa học</a></li>
                         </ul>
                     </div>
                 </li>
@@ -480,11 +544,14 @@
     <script th:src="@{/adminn/js/typeahead.js}"></script>
     <script th:src="@{/adminn/js/select2.js}"></script>
 
+    <script th:src="@{/js/jquery.simplePagination.js}"></script>
     <script th:src="@{/api/api.js}"></script>
     <script>
         function logout(){
             document.getElementById("logout").submit();
         }
+        getAccount(accountInfor)
+            .then(() =>   document.querySelector(".imgAvatar").setAttribute("src",accountInfor.url))
     </script>
     <div layout:fragment="js"></div>
     <!-- End custom js for this page-->

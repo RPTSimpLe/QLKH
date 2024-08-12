@@ -10,18 +10,6 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Optional;
 
-//@Configuration
-//@EnableJpaAuditing(auditorAwareRef = "auditorAware")
-//public class JpaAuditingConfig {
-//
-//	@Bean
-//	public AuditorAware<String> auditorAware() {
-//		return () -> Optional
-//				.of(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-//	}
-//
-//}
-
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class JpaAuditingConfig {

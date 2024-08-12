@@ -10,7 +10,6 @@ function formToObject(formSelector){
             obj[name] = value
         }
     }
-
     const selects = form.querySelectorAll('select')
     for (const select of selects){
         const name = select.getAttribute('name');
@@ -28,6 +27,17 @@ function formToObject(formSelector){
     }
 
     return obj;
+}
+
+let accountInfor = {}
+function getAccount(accountInfor) {
+    return  get("/api/v1/account/getAccount")
+        .then(accountData =>{
+            accountInfor.code = accountData.code;
+            accountInfor.id = accountData.id;
+            accountInfor.username = accountData.username;
+            accountInfor.url = accountData.url;
+        })
 }
 
 function get(path, params = {}){
@@ -53,6 +63,30 @@ function post(path,body){
         });
 }
 
+function postImages(path,body){
+    var myHeaders = new Headers();
+    return fetch(path,{
+        method: 'POST',
+        body: body,
+        headers: myHeaders,
+    }).then(response => response.json())
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function putImages(path,body){
+    var myHeaders = new Headers();
+    return fetch(path,{
+        method: 'PUT',
+        body: body,
+        headers: myHeaders,
+    }).then(response => response.json())
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 function put(path,body){
     var myHeaders = new Headers();
     myHeaders.append("Content-Type","application/json");
@@ -69,5 +103,21 @@ function deleteMapping(path){
     return fetch(path,{
         method: 'DELETE',
         headers: myHeaders,
+    })
+}
+const _$=$
+function showPagination({
+                    totalItems,
+                    limit,
+                    currentPage,
+                    onPageClick,
+                    }){
+    $('#pagi').pagination({
+            items: totalItems,
+            itemsOnPage: limit,
+            currentPage: currentPage,
+            onPageClick: onPageClick,
+            prevText: "&laquo;",
+            nextText: "&raquo;"
     })
 }

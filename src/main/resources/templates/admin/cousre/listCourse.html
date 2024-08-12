@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách khoá học</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách khóa học</h4>
+                <form class="search">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label >Mã: </label>
+                                <input type="text" name="sCode" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label >Tên khóa học</label>
+                                <input type="text" class="form-control" name="sName">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" style="margin-top: 8%" class="btn btn-primary mb-2">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                STT
+                            </th>
+                            <th>
+                                Mã
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Số buổi
+                            </th>
+                            <th>
+                                Số giờ
+                            </th>
+                            <th>
+                                Giá
+                            </th>
+                            <th>
+                                Ngày tạo/sửa
+                            </th>
+                            <th>
+                                Người tạo/sửa
+                            </th>
+                            <th>
+                                Chức năng
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="body_table_list">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagi"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm nhóm khóa học</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample updateForm" >
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Tên khóa học</label>
+                                            <input type="text" class="form-control" id="exampleInputUsername1" name="oldName" placeholder="Tên" disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Đổi tên mới: </label>
+                                            <input type="text" class="form-control" name="name" placeholder="Tên" >
+                                        </div>
+
+                                        <input type="number" class="form-control"  name="id" hidden="hidden">
+                                        <div class="form-group">
+                                            <label >Mã khóa học</label>
+                                            <input type="text" class="form-control"  name="oldCode" placeholder="Mã nhóm" disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label >Đổi mã mới</label>
+                                            <input type="text" class="form-control"  name="code" placeholder="Mã nhóm">
+                                        </div>
+
+                                        <div class="form-group d-flex flex-column">
+                                            <label class="groupRoleDetailLabel">Nhóm khóa học</label>
+                                            <div class="row groupRoleDetail"  >
+                                                <div class="col-10" style="margin-left: 0%">
+                                                    <select class="form-control selectGroupRoleDetail " id="exampleEducation" name="parentId">
+                                                    </select>
+                                                </div>
+                                                <div class="dropdown col-2">
+                                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info">Thêm nhóm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex flex-column">
+                                            <h6 class="text-danger message_text"></h6>
+                                        </div>
+                                        <button class="btn btn-primary mr-2" onclick="updateRole()">Cập nhật</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div layout:fragment="js">
+    <script>
+        let searchForm = {}
+        let limit =5
+
+        function renderList(data,page,limit) {
+            let firstItem = ((page-1)*limit)+1
+            let html = ''
+            let sTT = firstItem
+            for (const course of data) {
+                html +=
+                    `<tr id="course_${course.id}">
+                                <td>${sTT}</td>
+                                <td>
+                                    ${course.code}
+                                </td>
+                                <td>
+                                    ${course.name}
+                                </td>
+                                <td>
+                                    ${course.duration}
+                                </td>
+                                <td>
+                                    ${course.numberPreiod}
+                                </td>
+                                <td>
+                                    ${course.description}
+                                </td>
+                                <td>
+                                    ${course.modifierDate}
+                                </td>
+                                  <td>
+                                    ${course.modifierBy}
+                                </td>
+                                <td>
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" onclick="detail(${course.id})">Chi tiết</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteCourse(${course.id})">Xóa</button>
+                                </td>
+                            </tr>`
+                sTT += 1
+            }
+            document.querySelector(".body_table_list").innerHTML = html
+        }
+
+        function getListAndRender({page, limit}) {
+            get("/api/v1/course/admin/getAll", {page, limit, ...searchForm})
+                .then(respond => {
+                    console.log(respond)
+                    let {totalItems, page, limit} = respond
+                    renderList(respond.data,page,limit)
+                    _$("#pagi").pagination("destroy")
+
+                    showPagination({
+                        totalItems: totalItems,
+                        limit: limit,
+                        currentPage: page,
+                        onPageClick: function (pageNumber) {
+                            getListAndRender({page: pageNumber, limit})
+                        }
+                    })
+                })
+        }
+        // get(`/api/v1/role/admin/findByParentId/0`)
+        //     .then(datas => {
+        //         let html = `<option value="">Chọn khóa học</option>`;
+        //         for (const data of datas) {
+        //             html +=`<option value="${data.id}">${data.name}</option>`
+        //         }
+        //         document.querySelector(".selectGroupRole").innerHTML = html
+        //     })
+        //
+        // document.querySelector(".search").addEventListener("submit", (e)=> {
+        //     e.preventDefault();
+        //     searchForm = formToObject(".search")
+        //     console.log(searchForm)
+        //     getListAndRender({
+        //         page:1,
+        //         limit: limit,
+        //         ... searchForm
+        //     })
+        // })
+
+        getListAndRender({page: 1, limit: limit})
+
+        // function detail(id,valueTypeRole){
+        //     get("/api/v1/role/admin/findById/" + id)
+        //         .then(role => {
+        //             document.querySelector('input[name="oldCode"]').value = role.code
+        //             document.querySelector('input[name="oldName"]').value = role.name;
+        //             document.querySelector('input[name="id"]').value = role.id;
+        //             if (valueTypeRole == 0){
+        //                 document.querySelector(".groupRoleDetail").setAttribute("hidden","hidden")
+        //                 document.querySelector(".groupRoleDetailLabel").setAttribute("hidden","hidden")
+        //                 document.querySelector(".selectGroupRoleDetail").innerHTML = `<option value="0"></option>`
+        //             }else if(valueTypeRole == 1) {
+        //                 get(`/api/v1/role/admin/findByParentId/0`)
+        //                     .then(datas => {
+        //                         let html = ``;
+        //                         let originalData = ``
+        //                         for (const data of datas) {
+        //                             if (data.id == role.parentId){
+        //                                 originalData += `<option value="${data.id}">${data.name}</option>`
+        //                             }
+        //                             html +=`<option value="${data.id}">${data.name}</option>`
+        //                         }
+        //                         originalData+= html
+        //                         document.querySelector(".groupRoleDetail").removeAttribute("hidden")
+        //                         document.querySelector(".groupRoleDetailLabel").removeAttribute("hidden")
+        //                         document.querySelector(".selectGroupRoleDetail").innerHTML = originalData
+        //                     })
+        //             }
+        //         })
+        // }
+        //
+        // function updateRole(){
+        //     document.querySelector(".updateForm").addEventListener("submit",(e) => {
+        //         e.preventDefault()
+        //         let id = document.querySelector('input[name="id"]').value
+        //         let formValue = formToObject(".updateForm")
+        //         put(`/api/v1/role/admin/update/${id}`,formValue)
+        //             .then(respond =>{
+        //                 if(respond.message == null){
+        //                     alert("Cập nhật thành công")
+        //                     window.location.href = "/admin/roleView/listRole"
+        //                 }else {
+        //                     document.querySelector(".message_text").innerHTML = respond.message
+        //                 }
+        //             })
+        //     })
+        // }
+        //
+        // function deleteRole(id,valueTypeRole){
+        //     let msg
+        //     if (valueTypeRole == 0){
+        //         msg = "Bạn có muốn xóa nhóm khóa học và các khóa học liên quan?"
+        //     }else{
+        //         msg = "Bạn muốn xóa?"
+        //     }
+        //     if (confirm(msg)){
+        //         deleteMapping(`/api/v1/role/admin/delete/${id}`)
+        //             .then(respond =>{
+        //                 if(respond.message == null){
+        //                     const element = document.querySelector('#role_' + id);
+        //                     element.remove();
+        //                     alert("Xóa thành công")
+        //                 }
+        //             })
+        //     }
+        // }
+    </script>
+</div>
+</body>
+</html>

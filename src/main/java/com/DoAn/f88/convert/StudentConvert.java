@@ -2,14 +2,19 @@ package com.DoAn.f88.convert;
 
 import com.DoAn.f88.dto.StudentDTO;
 import com.DoAn.f88.entity.StudentEntity;
-import com.DoAn.f88.formCreate.StudentCreateForm;
+import com.DoAn.f88.request.student.StudentCreateForm;
+import com.DoAn.f88.request.student.StudentRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StudentConvert {
-    public StudentEntity toEntity(StudentCreateForm form){
-        StudentEntity studentEntity = new StudentEntity();
+    public StudentEntity toEntity(StudentCreateForm form, StudentEntity studentEntity){
         studentEntity.setEducation(form.getEducation());
+        return studentEntity;
+    }
+
+    public StudentEntity toEntity(StudentRequest request, StudentEntity studentEntity){
+        studentEntity.setEducation(request.getEducation());
         return studentEntity;
     }
 

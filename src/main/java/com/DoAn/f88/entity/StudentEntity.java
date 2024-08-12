@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,5 +22,5 @@ public class StudentEntity extends BaseEntity{
     private AccountEntity   account;
 
     @OneToMany(mappedBy = "student")
-    private List<RoadMapEntity> roadMap;
+    private List<RoadMapEntity> roadMap = new ArrayList<>();
 }

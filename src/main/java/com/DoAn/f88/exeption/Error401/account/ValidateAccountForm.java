@@ -1,6 +1,7 @@
-package com.DoAn.f88.exeption.Error401;
+package com.DoAn.f88.exeption.Error401.account;
 
-import com.DoAn.f88.formCreate.CreateAccform;
+import com.DoAn.f88.exeption.Error401.AuthException;
+import com.DoAn.f88.request.account.CreateAccform;
 import com.DoAn.f88.entity.AccountEntity;
 import com.DoAn.f88.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ValidateAccountForm {
         if (optionalAccount.isPresent()) {
             throw new AuthException("Tên đăng nhập đã tồn tại");
         }
-        if (createAccform.getPassword().length() <= 4){
+        if (createAccform.getPassword().length() <= 8){
             throw new AuthException("Mật khẩu phải chứa ít nhất 8 kí tự");
         }
         Optional<AccountEntity> optionalAccountByEmail = accountRepository.findByEmail(createAccform.getEmail());
@@ -30,7 +31,8 @@ public class ValidateAccountForm {
         }
         Optional<AccountEntity> optionalAccountEntityByPhone = accountRepository.findByPhone(createAccform.getPhoneNumber());
         if (optionalAccountEntityByPhone.isPresent()){
-            throw new AuthException("Số điện thoại đã tồn tại");
+            throw new AuthException("Mỗi số điện thoại chỉ được đăng kí 1 lần");
+
         }
     }
 }

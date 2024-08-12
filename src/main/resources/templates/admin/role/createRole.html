@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm vai trò</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thêm vai trò</h4>
+                    <form class="forms-sample formRole" >
+                        <div class="form-group">
+                            <label for="exampleInputName6">Tên: </label>
+                            <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Tên vai trò">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputName1">Mã: </label>
+                            <input type="text" class="form-control" name="code" id="exampleInputName1" placeholder="Mã vai trò">
+                        </div>
+                        <div class="form-group d-flex flex-column">
+                            <label>Nhóm vai trò</label>
+                            <div class="row"  >
+                                <div class="col-10" style="margin-left: 0%">
+                                    <select class="form-control selectGroupRole" id="exampleEducation" name="parentId">
+                                    </select>
+                                </div>
+                                <div class="dropdown col-2">
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info">Thêm nhóm</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Thêm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 800px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm nhóm vai trò</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="forms-sample formGroupRole" >
+                                            <div class="form-group">
+                                                <label for="exampleInputUsername1">Tên nhóm</label>
+                                                <input type="text" class="form-control" id="exampleInputUsername1" name="name" placeholder="Tên nhóm">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputUsername1">Mã nhóm</label>
+                                                <input type="text" class="form-control" name="code" placeholder="Mã nhóm">
+                                            </div>
+                                            <input type="text" class="form-control" name="parentId" value="0">
+                                            <div class="form-group">
+                                                <h6 class="text-danger message_text"></h6>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mr-2">Thêm</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="js">
+        <script>
+            get(`/api/v1/role/admin/findByParentId/0`)
+                .then(datas => {
+                    let html = `<option value="">Chọn vai trò</option>`;
+                    for (const data of datas) {
+                        html +=`<option value="${data.id}">${data.name}</option>`
+                    }
+                    document.querySelector(".selectGroupRole").innerHTML = html
+                })
+
+            document.querySelector(".formGroupRole").addEventListener("submit",(e) =>{
+                e.preventDefault();
+                let formValue = formToObject(".formGroupRole")
+                post(`/api/v1/role/admin/create`,formValue)
+                    .then(respond =>{
+                        if (respond.message == null){
+                            document.querySelector(".selectGroupRole").innerHTML +=`<option value="${respond.id}">${respond.name}</option>`
+                            _$('#exampleModal').modal('hide');
+                        }else {
+                            alert(respond.message)
+                        }
+                    })
+            })
+            document.querySelector(".formRole").addEventListener("submit",(e) =>{
+                e.preventDefault();
+                let formValue = formToObject(".formRole")
+                post(`/api/v1/role/admin/create`,formValue)
+                    .then(respond =>{
+                        if (respond.message == null){
+                            window.location.href = "/admin/roleView/listRole"
+                        }else {
+                           document.querySelector(".message_text").innerHTML = respond.message
+                        }
+                    })
+            })
+        </script>
+    </div>
+</body>
+</html>
