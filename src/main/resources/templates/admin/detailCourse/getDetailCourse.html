@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết khóa học</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .stretch-card{
+            position: relative;
+        }
+        .period{
+            position: absolute;
+            right: 7%;
+            top: 2%;
+        }
+    </style>
+   <div class="row">
+       <div class="col-6 grid-margin stretch-card">
+           <div class="card">
+               <div class="card-body">
+                   <h4 class="card-title">Chi tiết khóa học</h4>
+                   <form class="forms-sample updateForm" >
+                       <input th:value="${id}" name="id" hidden="hidden">
+
+                       <div class="form-group">
+                           <label for="exampleInputName1">Mã: </label>
+                           <input type="text" class="form-control" name="code" id="exampleInputName1" placeholder="Mã khóa học" disabled >
+                       </div>
+                       <div class="form-group">
+                           <label for="exampleInputName6">Tên: </label>
+                           <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Tên khóa học">
+                       </div>
+
+                       <div class="form-group">
+                           <label>Số buổi học</label>
+                           <input type="number" class="form-control" name="numberPreiod" placeholder="Số buổi học" min="0" disabled>
+                       </div>
+                       <div class="form-group">
+                           <label>Số giờ học (tính theo giờ)</label>
+                           <input type="number" class="form-control" name="duration" placeholder="Số giờ học" min="0" disabled>
+                       </div>
+                       <div class="form-group">
+                           <label>Giá</label>
+                           <input type="number" class="form-control" name="price" placeholder="Giá" min="0">
+                       </div>
+                       <div class="form-group">
+                           <label>Mô tả</label>
+                           <textarea class="form-control" id="exampleTextarea1" rows="8" name="description" placeholder="Mô tả">
+                            </textarea>
+                       </div>
+                       <div class="form-group d-flex flex-column">
+                           <h6 class="text-danger message_text"></h6>
+                       </div>
+                       <button type="submit" class="btn btn-primary mr-2" onclick="updateCourse()">Cập nhật</button>
+                   </form>
+               </div>
+           </div>
+       </div>
+       <div class="col-6 grid-margin stretch-card">
+           <div class="period">
+               <button type="button" class="btn btn-info addPeriod">Thêm buổi học </button>
+               <button type="button" class="btn btn-danger" onclick="deleteAll()">Xóa</button>
+           </div>
+
+           <div class="accordion" style="width: 95%; margin-top: 10%" id="accordionExample">
+
+           </div>
+       </div>
+   </div>
+</div>
+
+<div layout:fragment="js">
+    <script>
+        let id = document.querySelector('input[name="id"]').value
+        get(`/api/v1/course/admin/findById/${id}`)
+            .then(respond => {
+                document.querySelector('input[name="code"]').value = respond.code
+                document.querySelector('input[name="name"]').value = respond.name;
+                document.querySelector('input[name="numberPreiod"]').value = respond.numberPreiod
+                document.querySelector('input[name="duration"]').value = respond.duration;
+                document.querySelector('input[name="price"]').value = respond.price
+                document.querySelector('textarea[name="description"]').value = respond.description;
+                document.querySelector(".addPeriod").setAttribute("onclick",`addPeriod(${respond.numberPreiod+1})`)
+            })
+
+        function addPeriod(periodNumber){
+            let html =``;
+            html= `<div class="card">
+                   <div class="card-header" id="headingOne">
+                       <h2 class="mb-0">
+                           <button class="btn btn-link btn-block text-left accordion_text" type="button" data-toggle="collapse" data-target="#collapse${periodNumber}" aria-expanded="false" aria-controls="collapse${periodNumber}">
+                               <div class="row">
+                                   <div class="col-6"> <h6 class="text-black" >Buổi ${periodNumber}</h6></div>
+                                   <div class="col-6" style="text-align: right"><i class="mdi mdi-plus" style="color: black;">   </i></div>
+                               </div>
+                           </button>
+                       </h2>
+                   </div>
+
+                   <div id="collapse${periodNumber}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                       <div class="card-body">
+                               <input type="number" name="id_${periodNumber}">
+                           <form class="forms-sample formDetailCourse_${periodNumber}" >
+                               <input type="number" value="${periodNumber}" name="numberPreiod" hidden="hidden" >
+                               <div class="form-group">
+                                   <label for="exampleInputName6">Tên buổi học: </label>
+                                   <input type="text" class="form-control" name="namePreiod" placeholder="Tên buổi học">
+                               </div>
+
+                               <div class="form-group">
+                                   <label for="exampleInputName1">Thời lượng tiết học(theo giờ): </label>
+                                   <input type="number" class="form-control" name="duration" placeholder="Thời lượng tiết học">
+                               </div>
+                               <div class="form-group">
+                                   <label for="exampleInputName1">Link video học thử: </label>
+                                   <input type="text" class="form-control" name="recordUrl" placeholder="Mã vai trò">
+                               </div>
+                               <div class="form-group">
+                                   <label>Mô tả</label>
+                                   <textarea class="form-control"  rows="8" name="description" placeholder="Mô tả">
+                                    </textarea>
+                               </div>
+                                <div class="form-group d-flex flex-column">
+                                   <h6 class="text-danger message_text_${periodNumber}"></h6>
+                               </div>
+                               <button type="submit" class="btn btn-primary mr-2" onclick="addDetailCourse(${periodNumber})">Xác nhận</button>
+                           </form>
+                       </div>
+                   </div>
+               </div>`
+            document.querySelector(".accordion").innerHTML+=html
+            document.querySelector(".addPeriod").setAttribute("onclick",`addPeriod(${periodNumber+1})`)
+            document.querySelector('input[name="numberPreiod"]').value = periodNumber
+        }
+
+        function addDetailCourse(periodNumber){
+            document.querySelector(".formDetailCourse_"+periodNumber).addEventListener("submit",(e) => {
+                e.preventDefault()
+                let id = document.querySelector('input[name="id"]').value
+                let formValue = formToObject(".formDetailCourse_"+periodNumber)
+                post(`/api/v1/detailCourse/admin/create/${id}`,formValue)
+                    .then(respond =>{
+                        if(respond.message == null){
+                            alert("Cập nhật thành công")
+                        }else {
+                            document.querySelector(".message_text_"+periodNumber).innerHTML = respond.message
+                        }
+                    })
+            })
+        }
+
+        function updateCourse(){
+            document.querySelector(".updateForm").addEventListener("submit",(e) => {
+                e.preventDefault()
+                let id = document.querySelector(`input[name="id_${id}"]`).value
+                let formValue = formToObject(".updateForm")
+                put(`/api/v1/course/admin/update/${id}`,formValue)
+                    .then(respond =>{
+                        if(respond.message == null){
+                            alert("Cập nhật thành công")
+                        }else {
+                            document.querySelector(".message_text").innerHTML = respond.message
+                        }
+                    })
+            })
+        }
+
+    </script>
+</div>
+</body>
+</html>

@@ -14,10 +14,11 @@ public class DetailCourseEntity extends BaseEntity {
     private Long id;
     private String namePreiod;
     private Long numberPreiod;
+    private Integer duration;
     private String recordUrl;
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private CourseEntity course;
 }

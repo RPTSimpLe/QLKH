@@ -23,4 +23,13 @@ public class CourseAdminApi {
     public PageDTO<CourseDTO> getAll(@RequestParam Map<String, String> params) {
         return courseService.getAll(params);
     }
+    @GetMapping("/admin/findById/{id}")
+    public CourseDTO findById(@PathVariable String id) {
+        return courseService.findById(id);
+    }
+
+    @PutMapping("/admin/update/{id}")
+    public CourseDTO update(@RequestBody CourseRequest courseRequest,@PathVariable String id) {
+        return courseService.update(courseRequest,id);
+    }
 }

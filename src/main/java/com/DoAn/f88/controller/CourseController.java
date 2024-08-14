@@ -15,5 +15,4 @@ public class CourseController {
     public String listCourse() {
         return "admin/cousre/listCourse";
     }
-
 }

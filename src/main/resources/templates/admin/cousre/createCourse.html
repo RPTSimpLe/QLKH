@@ -19,16 +19,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputName1">Mã: </label>
+                            <label for="exampleInputName1">Mã (chú ý không thể thay đổi mã): </label>
                             <input type="text" class="form-control" name="code" id="exampleInputName1" placeholder="Mã khóa học">
-                        </div>
-                        <div class="form-group">
-                            <label>Số buổi học</label>
-                            <input type="number" class="form-control" name="numberPreiod" placeholder="Số buổi học" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label>Số giờ học (tính theo giờ)</label>
-                            <input type="number" class="form-control" name="duration" placeholder="Số giờ học" min="0">
                         </div>
                         <div class="form-group">
                             <label>Giá</label>
@@ -36,7 +28,8 @@
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <input type="text" class="form-control" name="description" placeholder="Mô tả">
+                            <textarea class="form-control" id="exampleTextarea1" rows="8" name="description" placeholder="Mô tả">
+                            </textarea>
                         </div>
                         <div class="form-group d-flex flex-column">
                             <h6 class="text-danger message_text"></h6>
@@ -54,9 +47,8 @@
                 e.preventDefault();
                 let formValue = formToObject(".formCourse")
                 if (formValue.description == ""){
-                    formValue.description = "Không có ghi chú"
+                    formValue.description = "Không có mô tả"
                 }
-                console.log(formValue)
                 post(`/api/v1/course/admin/create`,formValue)
                     .then(respond =>{
                         if (respond.message == null){

@@ -142,12 +142,11 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO updateRole(RoleRequest roleRequest, String id) {
         Long roleId = CheckNullVariable.checkValidateLong(id);
         ValidateValueForm.validateNull(roleRequest);
-        validateRoleForm.ValidateUniqueValue(roleRequest);
 
         RoleEntity newRoleEntity = roleConvert.toEntity(roleRequest);
 
         RoleEntity oldRoleEntity = roleRepository.findById(roleId).orElseThrow(() -> new ValidateException("Không tìm thấy vai trò"));
-        oldRoleEntity.setCode(newRoleEntity.getCode());
+
         oldRoleEntity.setParentId(newRoleEntity.getParentId());
         oldRoleEntity.setName(newRoleEntity.getName());
 

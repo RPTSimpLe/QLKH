@@ -93,6 +93,11 @@
                                 <div class="card-body">
                                     <form class="forms-sample updateForm" >
                                         <div class="form-group">
+                                            <label for="">Mã vai trò</label>
+                                            <input type="text" class="form-control"  name="code" placeholder="Mã nhóm" disabled>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="exampleInputUsername1">Tên vai trò</label>
                                             <input type="text" class="form-control" id="exampleInputUsername1" name="oldName" placeholder="Tên" disabled>
                                         </div>
@@ -103,16 +108,6 @@
                                         </div>
 
                                         <input type="number" class="form-control"  name="id" hidden="hidden">
-                                        <div class="form-group">
-                                            <label for="">Mã vai trò</label>
-                                            <input type="text" class="form-control"  name="oldCode" placeholder="Mã nhóm" disabled>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="">Đổi mã mới</label>
-                                            <input type="text" class="form-control"  name="code" placeholder="Mã nhóm">
-                                        </div>
-
                                         <div class="form-group d-flex flex-column">
                                             <label class="groupRoleDetailLabel">Nhóm vai trò</label>
                                             <div class="row groupRoleDetail"  >
@@ -216,7 +211,6 @@
         document.querySelector(".search").addEventListener("submit", (e)=> {
             e.preventDefault();
             searchForm = formToObject(".search")
-            console.log(searchForm)
             getListAndRender({
                 page:1,
                 limit: limit,
@@ -229,7 +223,7 @@
         function detail(id,valueTypeRole){
             get("/api/v1/role/admin/findById/" + id)
                 .then(role => {
-                    document.querySelector('input[name="oldCode"]').value = role.code
+                    document.querySelector('input[name="code"]').value = role.code
                     document.querySelector('input[name="oldName"]').value = role.name;
                     document.querySelector('input[name="id"]').value = role.id;
                     if (valueTypeRole == 0){

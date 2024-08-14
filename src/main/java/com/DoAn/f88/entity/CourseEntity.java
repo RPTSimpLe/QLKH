@@ -16,15 +16,13 @@ public class CourseEntity extends BaseEntity {
     private Long id;
     private String name;
     private String code;
-    private Integer duration;
     private String description;
-    private Integer numberPreiod;
     private Long price;
 
     @OneToMany(mappedBy = "course")
     private List<RoadMapEntity> roadMap;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<DetailCourseEntity> detailCourse;
 
     @OneToMany(mappedBy = "course")

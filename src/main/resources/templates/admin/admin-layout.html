@@ -18,12 +18,20 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" th:href="@{/adminn/css/vertical-layout-light/style.css}">
+    <link rel="stylesheet" th:href="@{/adminn/vendors/mdi/css/materialdesignicons.min.css}">
     <!-- endinject -->
     <link rel="shortcut icon" th:href="@{/adminn/images/favicon.png}" />
     <link rel="stylesheet" th:href="@{/js/simplePagination.css}">
 </head>
 <body>
 <style>
+    .accordion .accordion_text:hover{
+        text-decoration: none;
+    }
+    .accordion > .card .card-header{
+        padding: 0rem;
+        background-color: #EDE7F6;
+    }
     .sidebar .nav:not(.sub-menu) > .nav-item.active{
         background: none;
     }

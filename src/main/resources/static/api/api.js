@@ -105,6 +105,13 @@ function deleteMapping(path){
         headers: myHeaders,
     })
 }
+function formatPrice(price){
+   return  Intl.NumberFormat().format(price)
+}
+function reformatPrice(price){
+    return parseInt(price.replace(/,/g, ''));
+}
+
 const _$=$
 function showPagination({
                     totalItems,

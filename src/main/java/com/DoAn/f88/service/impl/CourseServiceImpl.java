@@ -4,7 +4,9 @@ import com.DoAn.f88.convert.CourseConvert;
 import com.DoAn.f88.dto.CourseDTO;
 import com.DoAn.f88.dto.PageDTO;
 import com.DoAn.f88.entity.CourseEntity;
+import com.DoAn.f88.entity.DetailCourseEntity;
 import com.DoAn.f88.exeption.Error403.CheckNullVariable;
+import com.DoAn.f88.exeption.Error403.ValidateException;
 import com.DoAn.f88.exeption.Error403.ValidateValueForm;
 import com.DoAn.f88.repository.CourseRepository;
 import com.DoAn.f88.request.CourseRequest;
@@ -32,8 +34,23 @@ public class CourseServiceImpl implements CourseService {
 
         CourseEntity courseEntity = courseConvert.toEntity(courseRequest);
         courseEntity = courseRepository.save(courseEntity);
-        return courseConvert.toDto(courseEntity);
+        return courseConvert.toDtoCustom(courseEntity);
     }
+
+//    public CourseDTO getDurationAndNumberPeriod(CourseEntity courseEntity,CourseDTO courseDTO) {
+//        if (courseEntity.getDetailCourse() == null) {
+//            courseDTO.setDuration(0);
+//            courseDTO.setNumberPreiod(0);
+//        }else {
+//            Integer duration = 0;
+//            for(DetailCourseEntity detailCourseEntity : courseEntity.getDetailCourse()){
+//                duration += detailCourseEntity.getDuration();
+//            }
+//            courseDTO.setNumberPreiod(courseEntity.getDetailCourse().size());
+//            courseDTO.setDuration(duration);
+//        }
+//        return courseDTO;
+//    }
 
     @Override
     public PageDTO<CourseDTO> getAll(Map<String, String> params) {
@@ -56,12 +73,12 @@ public class CourseServiceImpl implements CourseService {
         StringBuilder countBuilder = new StringBuilder("select count(r.id) from CourseEntity r where r.isDeleted = false ");
 
         if (CheckNullVariable.checkNullString(sCode)){
-            selectStringBuilder.append(" and r.sCode like :sCode ");
-            countBuilder.append(" and r.sCode like :sCode ");
+            selectStringBuilder.append(" and r.code like :sCode ");
+            countBuilder.append(" and r.code like :sCode ");
         }
         if (CheckNullVariable.checkNullString(sName)){
-            selectStringBuilder.append(" and r.sName like :sName ");
-            countBuilder.append(" and r.sName like :sName ");
+            selectStringBuilder.append(" and r.name like :sName ");
+            countBuilder.append(" and r.name like :sName ");
         }
 
         TypedQuery<CourseEntity> selectQuery = entityManager.createQuery(selectStringBuilder.toString(), CourseEntity.class);
@@ -85,5 +102,26 @@ public class CourseServiceImpl implements CourseService {
 
         List<CourseDTO> courseDTOList = courseConvert.toDtoList(courseEntityList);
         return new PageDTO<>(page, limit, count, courseDTOList);
+    }
+
+    @Override
+    public CourseDTO findById(String id) {
+        Long courseId = CheckNullVariable.checkValidateLong(id);
+
+        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> new ValidateException("Không tìm thấy khóa học"));
+        return  courseConvert.toDtoCustom(courseEntity);
+    }
+
+    @Override
+    public CourseDTO update(CourseRequest courseRequest, String id) {
+        Long courseId = CheckNullVariable.checkValidateLong(id);
+        ValidateValueForm.validateNull(courseRequest);
+        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> new ValidateException("Không tìm thấy khóa học"));
+
+        CourseEntity newCourseEntity = courseConvert.toEntity(courseRequest);
+        courseEntity.setName(newCourseEntity.getName());
+        courseEntity.setDescription(newCourseEntity.getDescription());
+        courseEntity = courseRepository.save(courseEntity);
+        return courseConvert.toDtoCustom(courseEntity);
     }
 }

@@ -9,4 +9,6 @@ import java.util.Map;
 public interface CourseService {
     CourseDTO create(CourseRequest courseRequest);
     PageDTO<CourseDTO> getAll(Map<String, String> params);
+    CourseDTO findById(String id);
+    CourseDTO update(CourseRequest courseRequest,String id);
 }
