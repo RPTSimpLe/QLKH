@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -13,11 +16,10 @@ public class RoadMapEntity extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id", nullable = false)
-    private CourseEntity course;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id")
-    private StudentEntity student;
+    private String code;
+    private String name;
+    private String discount;
+    private String description;
+    @OneToMany(mappedBy = "roadMap")
+    private List<RoadMapCourseEntity> roadMapCourses = new ArrayList<>();
 }

@@ -20,7 +20,4 @@ public class StudentEntity extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity   account;
-
-    @OneToMany(mappedBy = "student")
-    private List<RoadMapEntity> roadMap = new ArrayList<>();
 }

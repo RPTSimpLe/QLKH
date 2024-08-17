@@ -7,6 +7,7 @@ import com.DoAn.f88.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,5 +32,13 @@ public class CourseAdminApi {
     @PutMapping("/admin/update/{id}")
     public CourseDTO update(@RequestBody CourseRequest courseRequest,@PathVariable String id) {
         return courseService.update(courseRequest,id);
+    }
+    @DeleteMapping("/admin/delete/{id}")
+    public void update(@PathVariable String id) {
+        courseService.delete(id);
+    }
+    @GetMapping("admin/findAll")
+    public List<CourseDTO> findAll() {
+        return courseService.findAll();
     }
 }

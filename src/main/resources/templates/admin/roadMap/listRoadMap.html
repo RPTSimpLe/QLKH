@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách lộ trình</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách khóa học</h4>
+                <form class="search">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label >Mã: </label>
+                                <input type="text" name="sCode" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label >Tên khóa học</label>
+                                <input type="text" class="form-control" name="sName">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" style="margin-top: 13%" class="btn btn-primary mb-2">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                STT
+                            </th>
+                            <th>
+                                Mã
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Số buổi
+                            </th>
+                            <th>
+                                Số giờ
+                            </th>
+                            <th>
+                                Giá
+                            </th>
+                            <th>
+                                Ngày tạo/sửa
+                            </th>
+                            <th>
+                                Người tạo/sửa
+                            </th>
+                            <th>
+                                Chức năng
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="body_table_list">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagi"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="js">
+    <script>
+        // let searchForm = {}
+        // let limit =5
+        //
+        // function renderList(data,page,limit) {
+        //     let firstItem = ((page-1)*limit)+1
+        //     let html = ''
+        //     let sTT = firstItem
+        //     for (const course of data) {
+        //         html +=
+        //             `<tr id="course_${course.id}">
+        //                         <td>${sTT}</td>
+        //                         <td>
+        //                             ${course.code}
+        //                         </td>
+        //                         <td>
+        //                             ${course.name}
+        //                         </td>
+        //                         <td>
+        //                             ${course.duration}
+        //                         </td>
+        //                         <td>
+        //                             ${course.numberPreiod}
+        //                         </td>
+        //                         <td>
+        //                             ${ formatPrice(course.price)}
+        //                         </td>
+        //                         <td>
+        //                             ${course.modifierDate}
+        //                         </td>
+        //                           <td>
+        //                             ${course.modifierBy}
+        //                         </td>
+        //                         <td>
+        //                             <button type="button" class="btn btn-info" onclick="detail(${course.id})">Chi tiết</button>
+        //                             <button type="button" class="btn btn-danger" onclick="deleteCourse(${course.id})">Xóa</button>
+        //                         </td>
+        //                     </tr>`
+        //         sTT += 1
+        //     }
+        //     document.querySelector(".body_table_list").innerHTML = html
+        // }
+        //
+        // function getListAndRender({page, limit}) {
+        //     get("/api/v1/course/admin/getAll", {page, limit, ...searchForm})
+        //         .then(respond => {
+        //             let {totalItems, page, limit} = respond
+        //             renderList(respond.data,page,limit)
+        //             _$("#pagi").pagination("destroy")
+        //
+        //             showPagination({
+        //                 totalItems: totalItems,
+        //                 limit: limit,
+        //                 currentPage: page,
+        //                 onPageClick: function (pageNumber) {
+        //                     getListAndRender({page: pageNumber, limit})
+        //                 }
+        //             })
+        //         })
+        // }
+        //
+        // document.querySelector(".search").addEventListener("submit", (e)=> {
+        //     e.preventDefault();
+        //     searchForm = formToObject(".search")
+        //     getListAndRender({
+        //         page:1,
+        //         limit: limit,
+        //         ... searchForm
+        //     })
+        // })
+        //
+        // getListAndRender({page: 1, limit: limit})
+        //
+        // function detail(id){
+        //     window.location.href = `/admin/detailCourseView/getDetailCourse/${id}`
+        // }
+        //
+        // function deleteCourse(id){
+        //     if (confirm("Bạn có muốn xóa khóa học và các buổi học liên quan?")){
+        //         deleteMapping(`/api/v1/course/admin/delete/${id}`)
+        //             .then(respond =>{
+        //                 if(respond.message == null){
+        //                     const element = document.querySelector('#course_' + id);
+        //                     element.remove();
+        //                     alert("Xóa thành công")
+        //                 }
+        //             })
+        //     }
+        // }
+    </script>
+</div>
+</body>
+</html>

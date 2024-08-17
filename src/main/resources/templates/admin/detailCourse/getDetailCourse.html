@@ -63,7 +63,7 @@
        <div class="col-6 grid-margin stretch-card">
            <div class="period">
                <button type="button" class="btn btn-info addPeriod">Thêm buổi học </button>
-               <button type="button" class="btn btn-danger" onclick="deleteAll()">Xóa</button>
+               <button type="button" class="btn btn-danger" onclick="deleteAll()">Xóa tất cả</button>
            </div>
 
            <div class="accordion" style="width: 95%; margin-top: 10%" id="accordionExample">
@@ -75,17 +75,24 @@
 
 <div layout:fragment="js">
     <script>
-        let id = document.querySelector('input[name="id"]').value
-        get(`/api/v1/course/admin/findById/${id}`)
-            .then(respond => {
-                document.querySelector('input[name="code"]').value = respond.code
-                document.querySelector('input[name="name"]').value = respond.name;
-                document.querySelector('input[name="numberPreiod"]').value = respond.numberPreiod
-                document.querySelector('input[name="duration"]').value = respond.duration;
-                document.querySelector('input[name="price"]').value = respond.price
-                document.querySelector('textarea[name="description"]').value = respond.description;
-                document.querySelector(".addPeriod").setAttribute("onclick",`addPeriod(${respond.numberPreiod+1})`)
-            })
+        let course_id = document.querySelector(`input[name="id"]`).value
+
+        function renderCourse(value){
+            let id = document.querySelector('input[name="id"]').value
+            get(`/api/v1/course/admin/findById/${id}`)
+                .then(respond => {
+                    document.querySelector('input[name="code"]').value = respond.code
+                    document.querySelector('input[name="name"]').value = respond.name;
+                    document.querySelector('input[name="numberPreiod"]').value = respond.numberPreiod
+                    document.querySelector('input[name="duration"]').value = respond.duration;
+                    document.querySelector('input[name="price"]').value = respond.price
+                    document.querySelector('textarea[name="description"]').value = respond.description;
+                    if (value==false){
+                        document.querySelector(".addPeriod").setAttribute("onclick",`addPeriod(${respond.numberPreiod+1})`)
+                    }
+                })
+        }
+        renderCourse(false)
 
         function addPeriod(periodNumber){
             let html =``;
@@ -103,7 +110,7 @@
 
                    <div id="collapse${periodNumber}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                        <div class="card-body">
-                               <input type="number" name="id_${periodNumber}">
+                               <input type="number" name="id_${periodNumber}" hidden="hidden ">
                            <form class="forms-sample formDetailCourse_${periodNumber}" >
                                <input type="number" value="${periodNumber}" name="numberPreiod" hidden="hidden" >
                                <div class="form-group">
@@ -117,7 +124,7 @@
                                </div>
                                <div class="form-group">
                                    <label for="exampleInputName1">Link video học thử: </label>
-                                   <input type="text" class="form-control" name="recordUrl" placeholder="Mã vai trò">
+                                   <input type="text" class="form-control" name="recordUrl" placeholder="link">
                                </div>
                                <div class="form-group">
                                    <label>Mô tả</label>
@@ -140,23 +147,44 @@
         function addDetailCourse(periodNumber){
             document.querySelector(".formDetailCourse_"+periodNumber).addEventListener("submit",(e) => {
                 e.preventDefault()
-                let id = document.querySelector('input[name="id"]').value
+                let id = document.querySelector(`input[name="id_${periodNumber}"]`).value
+
                 let formValue = formToObject(".formDetailCourse_"+periodNumber)
-                post(`/api/v1/detailCourse/admin/create/${id}`,formValue)
-                    .then(respond =>{
-                        if(respond.message == null){
-                            alert("Cập nhật thành công")
-                        }else {
-                            document.querySelector(".message_text_"+periodNumber).innerHTML = respond.message
-                        }
-                    })
+                if (formValue.recordUrl == ""){
+                    formValue.recordUrl ="0"
+                }
+                formValue.course_id = document.querySelector('input[name="id"]').value
+                formValue.description = nullDesription(formValue.description)
+                if(id == ""){
+                    post(`/api/v1/detailCourses/admin/create`,formValue)
+                        .then(respond =>{
+                            if(respond.message == null){
+                                alert("Thêm thành công")
+                                renderCourse(true)
+                                renderDetail()
+                            }else {
+                                document.querySelector(".message_text_"+periodNumber).innerHTML = respond.message
+                            }
+                        })
+                }else {
+                    put(`/api/v1/detailCourses/admin/update/${id}`,formValue)
+                        .then(respond =>{
+                            if(respond.message == null){
+                                alert("Cập nhật thành công")
+                                renderCourse(true)
+                                renderDetail()
+                            }else {
+                                document.querySelector(".message_text_"+periodNumber).innerHTML = respond.message
+                            }
+                        })
+                }
             })
         }
 
         function updateCourse(){
             document.querySelector(".updateForm").addEventListener("submit",(e) => {
                 e.preventDefault()
-                let id = document.querySelector(`input[name="id_${id}"]`).value
+                let id = document.querySelector(`input[name="id"]`).value
                 let formValue = formToObject(".updateForm")
                 put(`/api/v1/course/admin/update/${id}`,formValue)
                     .then(respond =>{
@@ -169,6 +197,87 @@
             })
         }
 
+        function renderDetail(){
+            get(`/api/v1/detailCourses/admin/getAll/${course_id}`)
+                .then(details =>{
+                    let html =``;
+                    for (const detail of details) {
+                        html+= `<div class="card period_${detail.id}">
+                                   <div class="card-header" id="headingOne">
+                                       <h2 class="mb-0">
+                                           <button class="btn btn-link btn-block text-left accordion_text" type="button" data-toggle="collapse" data-target="#collapse${detail.numberPreiod}" aria-expanded="false" aria-controls="collapse${detail.numberPreiod}">
+                                               <div class="row">
+                                                   <div class="col-6"> <h6 class="text-black" >Buổi ${detail.numberPreiod} ${detail.namePreiod}</h6></div>
+                                                   <div class="col-6" style="text-align: right"><i class="mdi mdi-plus" style="color: black;">   </i></div>
+                                               </div>
+                                           </button>
+                                       </h2>
+                                   </div>
+
+                                   <div id="collapse${detail.numberPreiod}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                       <div class="card-body">
+                                               <input type="number" name="id_${detail.numberPreiod}" value="${detail.id}" hidden="hidden">
+                                           <form class="forms-sample formDetailCourse_${detail.numberPreiod}" >
+                                               <input type="number" value="${detail.numberPreiod}" name="numberPreiod" hidden="hidden" >
+                                               <div class="form-group">
+                                                   <label for="exampleInputName6">Tên buổi học: </label>
+                                                   <input type="text" class="form-control" name="namePreiod" placeholder="Tên buổi học" value="${detail.namePreiod}">
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="exampleInputName1">Thời lượng tiết học(theo giờ): </label>
+                                                   <input type="number" class="form-control" name="duration" placeholder="Thời lượng tiết học" value="${detail.duration}">
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="exampleInputName1">Link video học thử: </label>
+                                                   <input type="text" class="form-control" name="recordUrl" placeholder="link" value="${detail.recordUrl}">
+                                               </div>
+                                               <div class="form-group">
+                                                   <label>Mô tả</label>
+                                                   <textarea class="form-control"  rows="8" name="description" placeholder="Mô tả" >${detail.description}
+                                                    </textarea>
+                                               </div>
+                                                <div class="form-group d-flex flex-column">
+                                                   <h6 class="text-danger message_text_${detail.namePreiod}"></h6>
+                                               </div>
+                                               <button type="submit" class="btn btn-primary mr-2" onclick="addDetailCourse(${detail.numberPreiod})">Xác nhận</button>
+                                                <button type="button" class="btn btn-danger" onclick="deletePeriod(${detail.id})">Xóa</button>
+                                           </form>
+                                       </div>
+                                   </div>
+                               </div>`
+                    }
+
+                    document.querySelector(".accordion").innerHTML=html
+                    document.querySelector(".addPeriod").setAttribute("onclick",`addPeriod(${details.length+1})`)
+                })
+        }
+        renderDetail()
+
+        function deleteAll(){
+            let courseId = document.querySelector(`input[name="id"]`).value
+            if(confirm("Bạn muốn xóa tất cả buổi học ?")){
+                deleteMapping("/api/v1/detailCourses/admin/deleteAll/"+courseId)
+                    .then(respond =>{
+                        if (respond.message == null){
+                            document.querySelector(".accordion").innerHTML = ''
+                        }else {
+                            document.querySelector(".message_text").innerHTML = respond.message
+                        }
+                    })
+            }
+        }
+        function deletePeriod(id){
+            if(confirm("Bạn muốn xóa buổi học ?")){
+                deleteMapping("/api/v1/detailCourses/admin/delete/"+id)
+                    .then(respond =>{
+                        if (respond.message == null){
+                            document.querySelector(".period_"+id).remove()
+                        }else {
+                            document.querySelector(".message_text").innerHTML = respond.message
+                        }
+                    })
+            }
+        }
     </script>
 </div>
 </body>

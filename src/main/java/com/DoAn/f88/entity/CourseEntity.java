@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -19,12 +20,12 @@ public class CourseEntity extends BaseEntity {
     private String description;
     private Long price;
 
-    @OneToMany(mappedBy = "course")
-    private List<RoadMapEntity> roadMap;
-
-    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
-    private List<DetailCourseEntity> detailCourse;
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    private List<DetailCourseEntity> detailCourse = new ArrayList<>();
 
     @OneToMany(mappedBy = "course")
-    private List<TimekeepingEntity> timekeepingEntity;
+    private List<TimekeepingEntity> timekeepingEntity = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<RoadMapCourseEntity> roadMapCourse = new ArrayList<>();
 }

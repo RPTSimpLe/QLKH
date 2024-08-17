@@ -21,7 +21,7 @@ public class EmployeeEntity extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private AccountEntity   account;
+    private AccountEntity account;
 
     @OneToMany(mappedBy = "teacher")
     private List<TimekeepingEntity> timekeepingEntity = new ArrayList<>();

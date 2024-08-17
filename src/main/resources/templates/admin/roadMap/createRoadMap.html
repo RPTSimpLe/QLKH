@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/admin-layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm lộ trình</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Thêm lộ trình</h4>
+        <form class="forms-sample formRoadMap" >
+          <div class="form-group">
+            <label for="exampleInputName6">Tên: </label>
+            <input type="text" class="form-control" name="name" id="exampleInputName6" placeholder="Tên lộ trình">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputName1">Mã (chú ý không thể thay đổi mã): </label>
+            <input type="text" class="form-control" name="code" id="exampleInputName1" placeholder="Mã lộ trình">
+          </div>
+          <div class="form-group">
+            <label>Mô tả</label>
+            <textarea class="form-control" id="exampleTextarea1" rows="8" name="description" placeholder="Mô tả"></textarea>
+          </div>
+          <div class="form-group studentAttribute">
+            <label for="query_task" class="form-label">SELECT TASKS</label>
+            <select id="query_task" class="form-control choices-multiple" multiple></select>
+          </div>
+          <div class="form-group">
+            <label>Mã giảm giá (theo %)</label>
+            <input type="number" class="form-control" name="discount" min="0">
+          </div>
+          <input type="text" class="multiChoiceJs">
+          <div class="form-group">
+            <label>Tổng học phí</label>
+            <input type="text" class="form-control" disabled>
+          </div>
+          <div class="form-group d-flex flex-column">
+            <h6 class="text-danger message_text"></h6>
+          </div>
+          <button type="submit" class="btn btn-primary mr-2">Thêm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div layout:fragment="js">
+  <script>
+    document.querySelector(".formRoadMap").addEventListener("submit",(e) =>{
+      e.preventDefault();
+      let formValue = formToObject(".formRoadMap")
+      form.multiChoiceJs = document.querySelector(".multiChoiceJs").value.split(",").filter(item => item.trim())
+      post(`/api/v1/roadMap/admin/create`,formValue)
+              .then(respond =>{
+                if (respond.message == null){
+                  window.location.href = "/admin/courseView/listCourse"
+                }else {
+                  document.querySelector(".message_text").innerHTML = respond.message
+                }
+              })
+    })
+
+    function fetchCourses() {
+      return fetch("/api/v1/course/admin/findAll")
+              .then(response => response.json())
+              .then(courses => {
+                return courses.map(course => ({
+                  value: course.id,
+                  label: course.name
+                }));
+              });
+    }
+    initializeChoices();
+
+  </script>
+</div>
+</body>
+</html>

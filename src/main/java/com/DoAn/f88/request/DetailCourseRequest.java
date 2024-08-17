@@ -11,4 +11,5 @@ public class DetailCourseRequest {
     private Integer duration;
     private String recordUrl;
     private String description;
+    private Long course_id;
 }

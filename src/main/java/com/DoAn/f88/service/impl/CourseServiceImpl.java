@@ -9,6 +9,7 @@ import com.DoAn.f88.exeption.Error403.CheckNullVariable;
 import com.DoAn.f88.exeption.Error403.ValidateException;
 import com.DoAn.f88.exeption.Error403.ValidateValueForm;
 import com.DoAn.f88.repository.CourseRepository;
+import com.DoAn.f88.repository.DetailCourseRepository;
 import com.DoAn.f88.request.CourseRequest;
 import com.DoAn.f88.service.CourseService;
 import jakarta.persistence.EntityManager;
@@ -27,6 +28,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseConvert courseConvert;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private DetailCourseRepository detailCourseRepository;
 
     @Override
     public CourseDTO create(CourseRequest courseRequest) {
@@ -37,20 +40,10 @@ public class CourseServiceImpl implements CourseService {
         return courseConvert.toDtoCustom(courseEntity);
     }
 
-//    public CourseDTO getDurationAndNumberPeriod(CourseEntity courseEntity,CourseDTO courseDTO) {
-//        if (courseEntity.getDetailCourse() == null) {
-//            courseDTO.setDuration(0);
-//            courseDTO.setNumberPreiod(0);
-//        }else {
-//            Integer duration = 0;
-//            for(DetailCourseEntity detailCourseEntity : courseEntity.getDetailCourse()){
-//                duration += detailCourseEntity.getDuration();
-//            }
-//            courseDTO.setNumberPreiod(courseEntity.getDetailCourse().size());
-//            courseDTO.setDuration(duration);
-//        }
-//        return courseDTO;
-//    }
+    public List<CourseDTO> findAll(){
+        List<CourseEntity> courseEntityList = courseRepository.findAll();
+        return courseConvert.toDtoList(courseEntityList);
+    }
 
     @Override
     public PageDTO<CourseDTO> getAll(Map<String, String> params) {
@@ -124,4 +117,17 @@ public class CourseServiceImpl implements CourseService {
         courseEntity = courseRepository.save(courseEntity);
         return courseConvert.toDtoCustom(courseEntity);
     }
+
+    @Override
+    public void delete(String id) {
+        Long courseId = CheckNullVariable.checkValidateLong(id);
+        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> new ValidateException("Không tìm thấy khóa học"));
+        courseEntity.setIsDeleted(true);
+        for (DetailCourseEntity detailCourseEntity : courseEntity.getDetailCourse()){
+            detailCourseEntity.setIsDeleted(true);
+            detailCourseRepository.save(detailCourseEntity);
+        }
+        courseRepository.save(courseEntity);
+    }
+
 }

@@ -152,24 +152,18 @@
             window.location.href = `/admin/detailCourseView/getDetailCourse/${id}`
         }
 
-        // function deleteRole(id,valueTypeRole){
-        //     let msg
-        //     if (valueTypeRole == 0){
-        //         msg = "Bạn có muốn xóa nhóm khóa học và các khóa học liên quan?"
-        //     }else{
-        //         msg = "Bạn muốn xóa?"
-        //     }
-        //     if (confirm(msg)){
-        //         deleteMapping(`/api/v1/role/admin/delete/${id}`)
-        //             .then(respond =>{
-        //                 if(respond.message == null){
-        //                     const element = document.querySelector('#role_' + id);
-        //                     element.remove();
-        //                     alert("Xóa thành công")
-        //                 }
-        //             })
-        //     }
-        // }
+        function deleteCourse(id){
+            if (confirm("Bạn có muốn xóa khóa học và các buổi học liên quan?")){
+                deleteMapping(`/api/v1/course/admin/delete/${id}`)
+                    .then(respond =>{
+                        if(respond.message == null){
+                            const element = document.querySelector('#course_' + id);
+                            element.remove();
+                            alert("Xóa thành công")
+                        }
+                    })
+            }
+        }
     </script>
 </div>
 </body>

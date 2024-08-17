@@ -19,6 +19,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" th:href="@{/adminn/css/vertical-layout-light/style.css}">
     <link rel="stylesheet" th:href="@{/adminn/vendors/mdi/css/materialdesignicons.min.css}">
+    <link href="https://choices-js.github.io/Choices/assets/styles/choices.min.css" rel="stylesheet" />
     <!-- endinject -->
     <link rel="shortcut icon" th:href="@{/adminn/images/favicon.png}" />
     <link rel="stylesheet" th:href="@{/js/simplePagination.css}">
@@ -420,6 +421,19 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#roadMap_menu" aria-expanded="false" aria-controls="roadMap_menu">
+                        <i class="icon-layout menu-icon"></i>
+                        <span class="menu-title">Lộ trình học</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="roadMap_menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/roadMapView/createRoadMap}">Thêm lộ trình</a></li>
+                            <li class="nav-item"> <a class="nav-link" th:href="@{/admin/roadMapView/listRoadMap}">Danh sách lộ trình</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <i class="icon-layout menu-icon"></i>
                         <span class="menu-title">UI Elements</span>
@@ -551,6 +565,7 @@
     <script th:src="@{/adminn/js/file-upload.js}"></script>
     <script th:src="@{/adminn/js/typeahead.js}"></script>
     <script th:src="@{/adminn/js/select2.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/choices.js/9.1.0/choices.min.js"></script>
 
     <script th:src="@{/js/jquery.simplePagination.js}"></script>
     <script th:src="@{/api/api.js}"></script>

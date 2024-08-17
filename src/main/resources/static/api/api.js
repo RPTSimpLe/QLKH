@@ -128,3 +128,54 @@ function showPagination({
             nextText: "&raquo;"
     })
 }
+
+function nullDesription(value){
+    if (value.trim() == ""){
+       return  "Không có mô tả"
+    }
+    return value;
+}
+
+let query_task = null;
+
+function initializeChoices() {
+    document.addEventListener("DOMContentLoaded", function() {
+        // Khởi tạo Choices với trạng thái ban đầu
+        query_task = new Choices(document.querySelector('#query_task'), {
+            removeItemButton: true,
+            maxItemCount: 5,
+            duplicateItemsAllowed: true,
+            choices: [{ value: 0, label: 'Loading...' }]
+        });
+
+        fetchCourses().then(courses => {
+            query_task.clearChoices();
+            query_task.setChoices(courses, 'value', 'label', true);
+        });
+
+        query_task.passedElement.element.addEventListener('addItem', function(e) {
+            query_task.setChoices([{
+                value: e.detail.value,
+                label: e.detail.label
+            }], 'value', 'label', false);
+
+            document.querySelector(".multiChoiceJs").value += e.detail.value+ ","
+        }, false);
+
+        query_task.passedElement.element.addEventListener('removeItem', function(e) {
+            let list = document.querySelector(".multiChoiceJs").value.split(",").filter(item => item.trim())
+            let newList = list.filter(item => item !== e.detail.value.toString());
+            document.querySelector(".multiChoiceJs").value =newList+","
+
+            reset();
+        }, false);
+
+        function reset() {
+            fetchCourses().then(courses => {
+                query_task.clearChoices();
+                query_task.setChoices(courses, 'value', 'label', false);
+
+            });
+        }
+    });
+}
