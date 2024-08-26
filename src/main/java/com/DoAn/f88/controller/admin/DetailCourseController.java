@@ -1,4 +1,4 @@
-package com.DoAn.f88.api.admin;
+package com.DoAn.f88.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -45,6 +45,9 @@
                                 Tên
                             </th>
                             <th>
+                                Cấp độ
+                            </th>
+                            <th>
                                 Số buổi
                             </th>
                             <th>
@@ -94,6 +97,9 @@
                                     ${course.name}
                                 </td>
                                 <td>
+                                    ${course.level}
+                                </td>
+                                <td>
                                     ${course.duration}
                                 </td>
                                 <td>
@@ -119,7 +125,7 @@
         }
 
         function getListAndRender({page, limit}) {
-            get("/api/v1/course/admin/getAll", {page, limit, ...searchForm})
+            get("/admin/api/v1/course/getAll", {page, limit, ...searchForm})
                 .then(respond => {
                     let {totalItems, page, limit} = respond
                     renderList(respond.data,page,limit)
@@ -154,7 +160,7 @@
 
         function deleteCourse(id){
             if (confirm("Bạn có muốn xóa khóa học và các buổi học liên quan?")){
-                deleteMapping(`/api/v1/course/admin/delete/${id}`)
+                deleteMapping(`/admin/api/v1/course/delete/${id}`)
                     .then(respond =>{
                         if(respond.message == null){
                             const element = document.querySelector('#course_' + id);

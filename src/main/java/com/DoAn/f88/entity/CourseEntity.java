@@ -19,6 +19,7 @@ public class CourseEntity extends BaseEntity {
     private String code;
     private String description;
     private Long price;
+    private String level;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<DetailCourseEntity> detailCourse = new ArrayList<>();

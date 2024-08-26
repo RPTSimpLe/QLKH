@@ -14,4 +14,6 @@ public interface CourseService {
     CourseDTO update(CourseRequest courseRequest,String id);
     List<CourseDTO> findAll();
     void delete(String id);
+
+    Long calculateTotalPrice(List<Long> ids);
 }

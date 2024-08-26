@@ -27,6 +27,10 @@
                             <input type="number" class="form-control" name="price" placeholder="Giá" min="0">
                         </div>
                         <div class="form-group">
+                            <label>Cấp độ: </label>
+                            <input type="number" class="form-control" name="level" >
+                        </div>
+                        <div class="form-group">
                             <label>Mô tả</label>
                             <textarea class="form-control" id="exampleTextarea1" rows="8" name="description" placeholder="Mô tả">
                             </textarea>
@@ -49,7 +53,7 @@
                 if (formValue.description == ""){
                     formValue.description = "Không có mô tả"
                 }
-                post(`/api/v1/course/admin/create`,formValue)
+                post(`/admin/api/v1/course/create`,formValue)
                     .then(respond =>{
                         if (respond.message == null){
                             window.location.href = "/admin/courseView/listCourse"

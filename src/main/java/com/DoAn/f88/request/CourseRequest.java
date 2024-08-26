@@ -10,4 +10,5 @@ public class CourseRequest {
     private String description;
     private Integer price;
     private String code;
+    private String level;
 }

@@ -2,6 +2,8 @@ package com.DoAn.f88.exeption.Error403;
 
 import com.DoAn.f88.exeption.ApplicationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 // http statusCode
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 // 500 -> Logic
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+//@ExceptionHandler(ValidateException.class)
+@ResponseBody
 public class ValidateException extends ApplicationException {
 
 	public ValidateException(String message) {

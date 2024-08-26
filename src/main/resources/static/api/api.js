@@ -14,6 +14,7 @@ function formToObject(formSelector){
     for (const select of selects){
         const name = select.getAttribute('name');
         const value = select.value;
+        console.log("name: " +name+", value: "+value)
 
         obj[name] = value
     }
@@ -24,6 +25,7 @@ function formToObject(formSelector){
         const value = textarea.value;
 
         obj[name] = value
+
     }
 
     return obj;
@@ -137,6 +139,19 @@ function nullDesription(value){
 }
 
 let query_task = null;
+function updateTotalPrice() {
+    let ids = document.querySelector(".multiChoiceJs").value.split(",").filter(item => item.trim())
+    if (ids.length === 0){
+        document.querySelector(".totalPrice").value = 0
+    }else {
+        get(`/admin/api/v1/course/calculateTotalPrice/${ids}`)
+            .then(total =>{
+                let discount = document.querySelector("input[name='discount']").value
+                let price = total- (total * parseInt(discount))/100;
+                document.querySelector(".totalPrice").value = price
+            })
+    }
+}
 
 function initializeChoices() {
     document.addEventListener("DOMContentLoaded", function() {
@@ -160,6 +175,10 @@ function initializeChoices() {
             }], 'value', 'label', false);
 
             document.querySelector(".multiChoiceJs").value += e.detail.value+ ","
+
+            if (document.querySelector(".totalPrice") != undefined){
+                updateTotalPrice()
+            }
         }, false);
 
         query_task.passedElement.element.addEventListener('removeItem', function(e) {
@@ -167,6 +186,9 @@ function initializeChoices() {
             let newList = list.filter(item => item !== e.detail.value.toString());
             document.querySelector(".multiChoiceJs").value =newList+","
 
+            if (document.querySelector(".totalPrice") != undefined){
+                updateTotalPrice()
+            }
             reset();
         }, false);
 
@@ -177,5 +199,6 @@ function initializeChoices() {
 
             });
         }
+
     });
 }

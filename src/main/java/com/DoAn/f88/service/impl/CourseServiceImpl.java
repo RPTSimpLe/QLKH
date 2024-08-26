@@ -16,11 +16,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
@@ -113,6 +115,7 @@ public class CourseServiceImpl implements CourseService {
 
         CourseEntity newCourseEntity = courseConvert.toEntity(courseRequest);
         courseEntity.setName(newCourseEntity.getName());
+        courseEntity.setLevel(newCourseEntity.getLevel());
         courseEntity.setDescription(newCourseEntity.getDescription());
         courseEntity = courseRepository.save(courseEntity);
         return courseConvert.toDtoCustom(courseEntity);
@@ -130,4 +133,12 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(courseEntity);
     }
 
+    @Override
+    public Long calculateTotalPrice(List<Long> ids) {
+        long total = 0;
+        for (Long id : ids) {
+            total+= courseRepository.getPriceById(id);
+        }
+        return total;
+    }
 }

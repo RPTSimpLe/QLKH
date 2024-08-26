@@ -145,13 +145,13 @@
                 let path;
                 switch (document.querySelector('input[name="role"]').getAttribute("roleCode")) {
                     case "USER" :
-                        path = "/api/v1/account/admin/createStudentAcc";
+                        path = "/admin/api/v1/account/createStudentAcc";
                         break;
                     case "ADMIN":
-                        path = "/api/v1/account/admin/createAdminAcc";
+                        path = "/admin/api/v1/account/createAdminAcc";
                         break;
                     default :
-                        path = "/api/v1/account/admin/createEmployeeAcc";
+                        path = "/admin/api/v1/account/createEmployeeAcc";
                         break;
                 }
 
@@ -165,7 +165,7 @@
                             imagesValue.append("id",  respond.id)
                             imagesValue.append("file",  img.files[0])
 
-                            postImages("/api/v1/images/addImages",imagesValue)
+                            postImages("/user/api/v1/images/addImages",imagesValue)
                                 .then()
 
                             window.location.href = "/admin/accountView/listAccount";
@@ -178,7 +178,7 @@
                     document.querySelector('input[name="role"]').value = "admin"
                     document.querySelector('input[name="role"]').setAttribute("data-value",roleCode)
                 } else {
-                    get(`/api/v1/role/admin/findByRoleCode/${roleCode}`)
+                    get(`/admin/api/v1/role/findByRoleCode/${roleCode}`)
                         .then(respond => {
                             for (const role of respond) {
                                 html += ` <a class="dropdown-item" roleCode="${role.code}" onclick="addRoleToInput(this)">${role.name}</a>`

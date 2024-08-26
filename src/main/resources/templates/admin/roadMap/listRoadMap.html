@@ -11,7 +11,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Danh sách khóa học</h4>
+                <h4 class="card-title">Danh sách lộ trình</h4>
                 <form class="search">
                     <div class="row">
                         <div class="col-5">
@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-5">
                             <div class="form-group">
-                                <label >Tên khóa học</label>
+                                <label >Tên lộ trình</label>
                                 <input type="text" class="form-control" name="sName">
                             </div>
                         </div>
@@ -45,13 +45,13 @@
                                 Tên
                             </th>
                             <th>
-                                Số buổi
+                                Tổng số buổi
                             </th>
                             <th>
-                                Số giờ
+                                Học phí
                             </th>
                             <th>
-                                Giá
+                                Giảm giá
                             </th>
                             <th>
                                 Ngày tạo/sửa
@@ -73,97 +73,195 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi Tiết</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body imageModal">
+                                    <img id="avatar" >
+                                    <form class="forms-sample formImage">
+                                        <input type="text" class="form-control" name="imageId" hidden="hidden">
+                                        <div class="form-group">
+                                            <label>Ảnh đại diện</label>
+                                            <input type="file" multiple name="file" onchange="renderImg()"  class="file-upload-default">
+                                            <div class="input-group col-xs-12">
+                                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                                <span class="input-group-append">
+                                                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex flex-column">
+                                            <h6 class="text-danger message_text1"></h6>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Cập nhật</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample detailForm">
+                                        <input name="id" type="text" hidden="hidden">
+                                        <div class="form-group">
+                                            <label for="exampleInputName11">Mã</label>
+                                            <input type="text" class="form-control accountCode" id="exampleInputName11" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName6">Tên</label>
+                                            <input type="text" class="form-control" name="name" id="exampleInputName6">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Ghi chú</label>
+                                            <input type="text" class="form-control" name="description" disabled id="exampleInputName1" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName7">Khóa học</label>
+                                            <input type="text" class="form-control" name="nameCourse" id="exampleInputName7" >
+                                        </div>
+                                        <div class="form-group teacherAttribute">
+                                            <label >Giảm giá (theo %)</label>
+                                            <input type="number" class="form-control" name="discount" min="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName7">Học phí</label>
+                                            <input type="number" class="form-control" name="totalPrice" disabled >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName7">Tổng số tiết học</label>
+                                            <input type="number" class="form-control" name="totalPreiod" disabled>
+                                        </div>
+                                        <div class="form-group d-flex flex-column">
+                                            <h6 class="text-danger message_text2"></h6>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Cập nhật</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div layout:fragment="js">
     <script>
-        // let searchForm = {}
-        // let limit =5
-        //
-        // function renderList(data,page,limit) {
-        //     let firstItem = ((page-1)*limit)+1
-        //     let html = ''
-        //     let sTT = firstItem
-        //     for (const course of data) {
-        //         html +=
-        //             `<tr id="course_${course.id}">
-        //                         <td>${sTT}</td>
-        //                         <td>
-        //                             ${course.code}
-        //                         </td>
-        //                         <td>
-        //                             ${course.name}
-        //                         </td>
-        //                         <td>
-        //                             ${course.duration}
-        //                         </td>
-        //                         <td>
-        //                             ${course.numberPreiod}
-        //                         </td>
-        //                         <td>
-        //                             ${ formatPrice(course.price)}
-        //                         </td>
-        //                         <td>
-        //                             ${course.modifierDate}
-        //                         </td>
-        //                           <td>
-        //                             ${course.modifierBy}
-        //                         </td>
-        //                         <td>
-        //                             <button type="button" class="btn btn-info" onclick="detail(${course.id})">Chi tiết</button>
-        //                             <button type="button" class="btn btn-danger" onclick="deleteCourse(${course.id})">Xóa</button>
-        //                         </td>
-        //                     </tr>`
-        //         sTT += 1
-        //     }
-        //     document.querySelector(".body_table_list").innerHTML = html
-        // }
-        //
-        // function getListAndRender({page, limit}) {
-        //     get("/api/v1/course/admin/getAll", {page, limit, ...searchForm})
-        //         .then(respond => {
-        //             let {totalItems, page, limit} = respond
-        //             renderList(respond.data,page,limit)
-        //             _$("#pagi").pagination("destroy")
-        //
-        //             showPagination({
-        //                 totalItems: totalItems,
-        //                 limit: limit,
-        //                 currentPage: page,
-        //                 onPageClick: function (pageNumber) {
-        //                     getListAndRender({page: pageNumber, limit})
-        //                 }
-        //             })
-        //         })
-        // }
-        //
-        // document.querySelector(".search").addEventListener("submit", (e)=> {
-        //     e.preventDefault();
-        //     searchForm = formToObject(".search")
-        //     getListAndRender({
-        //         page:1,
-        //         limit: limit,
-        //         ... searchForm
-        //     })
-        // })
-        //
-        // getListAndRender({page: 1, limit: limit})
-        //
-        // function detail(id){
-        //     window.location.href = `/admin/detailCourseView/getDetailCourse/${id}`
-        // }
-        //
-        // function deleteCourse(id){
-        //     if (confirm("Bạn có muốn xóa khóa học và các buổi học liên quan?")){
-        //         deleteMapping(`/api/v1/course/admin/delete/${id}`)
-        //             .then(respond =>{
-        //                 if(respond.message == null){
-        //                     const element = document.querySelector('#course_' + id);
-        //                     element.remove();
-        //                     alert("Xóa thành công")
-        //                 }
-        //             })
-        //     }
-        // }
+        let searchForm = {}
+        let limit =5
+
+        function renderList(data,page,limit) {
+            let firstItem = ((page-1)*limit)+1
+            let html = ''
+            let sTT = firstItem
+            for (const roadMap of data) {
+                html +=
+                    `<tr id="roadMap_${roadMap.id}">
+                                <td>${sTT}</td>
+                                <td>
+                                    ${roadMap.code}
+                                </td>
+                                <td>
+                                    ${roadMap.name}
+                                </td>
+                                <td>
+                                    ${roadMap.totalPreiod}
+                                </td>
+                                <td>
+                                    ${ formatPrice(roadMap.totalPrice)}
+                                </td>
+                                <td>
+                                    ${roadMap.discount}
+                                </td>
+                                <td>
+                                    ${roadMap.modifierDate}
+                                </td>
+                                  <td>
+                                    ${roadMap.modifierBy}
+                                </td>
+                                <td>
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" onclick="detail(${roadMap.id})">Chi tiết</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteRoadMap(${roadMap.id})">Xóa</button>
+                                </td>
+                            </tr>`
+                sTT += 1
+            }
+            document.querySelector(".body_table_list").innerHTML = html
+        }
+
+        function getListAndRender({page, limit}) {
+            get("/admin/api/v1/roadmap/getAll", {page, limit, ...searchForm})
+                .then(respond => {
+                    let {totalItems, page, limit} = respond
+                    renderList(respond.data,page,limit)
+                    _$("#pagi").pagination("destroy")
+
+                    showPagination({
+                        totalItems: totalItems,
+                        limit: limit,
+                        currentPage: page,
+                        onPageClick: function (pageNumber) {
+                            getListAndRender({page: pageNumber, limit})
+                        }
+                    })
+                })
+        }
+
+        document.querySelector(".search").addEventListener("submit", (e)=> {
+            e.preventDefault();
+            searchForm = formToObject(".search")
+            getListAndRender({
+                page:1,
+                limit: limit,
+                ... searchForm
+            })
+        })
+
+        getListAndRender({page: 1, limit: limit})
+
+        function detail(id){
+            get("/admin/api/v1/roadmap/findById/" + id)
+                .then(roadMap => {
+                    document.querySelector('.accountCode').value = roadMap.code
+                    document.querySelector('input[name="id"]').value = roadMap.id;
+                    document.querySelector('input[name="name"]').value = roadMap.name;
+                    document.querySelector('input[name="nameCourse"]').value = roadMap.nameCourse;
+                    document.querySelector('input[name="description"]').value = roadMap.description;
+                    document.querySelector('input[name="discount"]').value = roadMap.discount;
+                    document.querySelector('input[name="totalPreiod"]').value = roadMap.totalPreiod;
+                    document.querySelector('input[name="totalPrice"]').value = roadMap.totalPrice;
+                })
+        }
+
+        function deleteRoadMap(id){
+            if (confirm("Bạn có muốn xóa lộ trình ")){
+                deleteMapping(`/api/v1/course/roadmap/delete/${id}`)
+                    .then(respond =>{
+                        if(respond.message == null){
+                            const element = document.querySelector('#roadmap' + id);
+                            element.remove();
+                            alert("Xóa thành công")
+                        }
+                    })
+            }
+        }
+        document.querySelector(".detailForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            let formValue = formToObject(".detailForm")
+            console.log(formValue)
+        })
     </script>
 </div>
 </body>

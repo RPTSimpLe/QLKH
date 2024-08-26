@@ -12,40 +12,40 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/role")
+@RequestMapping("/admin/api/v1/role")
 public class RoleAdminApi {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("admin/getAll")
+    @GetMapping("getAll")
     public List<RoleDTO> getAll() {
         return roleService.findAll();
     }
-    @GetMapping("/admin/pagiRole")
+    @GetMapping("/pagiRole")
     public PageDTO<RoleDTO> pagiRole(@RequestParam Map<String,String> params){
         return roleService.findRole(params);
     }
-    @GetMapping("/admin/findByRoleCode/{roleCode}")
+    @GetMapping("/findByRoleCode/{roleCode}")
     public List<RoleDTO> findByRoleCode(@PathVariable String roleCode) {
         return roleService.findByRoleCode(roleCode);
     }
-    @GetMapping("/admin/findByParentId/{parentId}")
+    @GetMapping("/findByParentId/{parentId}")
     public List<RoleDTO> findByParentId(@PathVariable String parentId) {
         return roleService.findByParentId(parentId);
     }
-    @GetMapping("/admin/findById/{id}")
+    @GetMapping("/findById/{id}")
     public RoleDTO findById(@PathVariable String id) {
         return roleService.findById(id);
     }
-    @PostMapping("/admin/create")
+    @PostMapping("/create")
     public RoleDTO create(@RequestBody RoleRequest roleRequest) {
         return roleService.createRole(roleRequest);
     }
-    @PutMapping("/admin/update/{id}")
+    @PutMapping("/update/{id}")
     public RoleDTO update(@RequestBody RoleRequest roleRequest, @PathVariable String id) {
         return roleService.updateRole(roleRequest,id);
     }
-    @DeleteMapping("/admin/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable String id){
         roleService.deleteRole(id);
     }

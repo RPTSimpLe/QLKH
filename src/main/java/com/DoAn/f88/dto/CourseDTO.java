@@ -12,5 +12,6 @@ public class CourseDTO extends BaseDTO {
     private String description;
     private Integer duration;
     private Integer numberPreiod;
+    private String level;
     private Long price;
 }

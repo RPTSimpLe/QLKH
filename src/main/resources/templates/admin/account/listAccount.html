@@ -314,7 +314,7 @@
             }
 
             function getAccountListAndRender({page, limit}) {
-                get("/api/v1/account/admin/getAll", {page, limit, ...searchForm})
+                get("/admin/api/v1/account/getAll", {page, limit, ...searchForm})
                     .then(respond => {
                         let {totalItems, page, limit} = respond
                         renderList(respond.data,page,limit)
@@ -332,7 +332,7 @@
             }
 
            function renderRole(roleName) {
-               get("/api/v1/role/admin/getAll")
+               get("/admin/api/v1/role/getAll")
                    .then(respond => {
                        let html = '';
                        for (const role of respond) {
@@ -351,7 +351,7 @@
             let detailForm = document.querySelector(".detailForm")
 
             function detail(id) {
-                get("/api/v1/account/findById/" + id)
+                get("/user/api/v1/account/findById/" + id)
                     .then(account => {
                         document.querySelector('input[name="id"]').value = account.id
                         document.querySelector(".accountCode").value = account.codeAccount
@@ -464,7 +464,7 @@
                 }else{
                    role = "employee"
                 }
-                put(`/api/v1/account/${role}/${formValue.id}`,formValue)
+                put(`/user/api/v1/account/${role}/${formValue.id}`,formValue)
                     .then(respond =>{
                         if(respond.message == null){
                             alert("Cập nhật thành công")
@@ -476,7 +476,7 @@
             })
             function deleteAcc(id) {
                 if (confirm("Ban muốn xóa?")){
-                    deleteMapping(`/api/v1/account/admin/delete/${id}`)
+                    deleteMapping(`/admin/api/v1/account/delete/${id}`)
                         .then(respond =>{
                             if(respond.message == null){
                                 const element = document.querySelector('#account_' + id);
@@ -501,7 +501,7 @@
                 formValue.append("imageId",  document.querySelector('input[name="imageId"]').value)
                 formValue.append("file",  img.files[0])
 
-                putImages("/api/v1/images/updateImages",formValue)
+                putImages("/user/api/v1/images/updateImages",formValue)
                     .then(respond => {
                         if(respond.message != null){
                             document.querySelector(".message_text1").innerHTML = respond.message
@@ -519,7 +519,7 @@
                         newAttribute: document.querySelector('input[name="newEmail"]').value
                     }
 
-                    put("/api/v1/account/updateEmail", formValue)
+                    put("/user/api/v1/account/updateEmail", formValue)
                         .then(respond =>{
                             if(respond.message != null){
                                 document.querySelector(".message_text3").innerHTML = respond.message
@@ -541,7 +541,7 @@
                         newAttribute: document.querySelector('input[name="newPhoneNumber"]').value
                     }
 
-                    put("/api/v1/account/updatePhone", formValue)
+                    put("/user/api/v1/account/updatePhone", formValue)
                         .then(respond =>{
                             if(respond.message != null){
                                 document.querySelector(".message_text4").innerHTML = respond.message
@@ -568,7 +568,7 @@
                         if (formValue.attribute !== formValue.newAttribute) {
                             throw new Error("Mật khẩu không khớp");
                         }
-                        put("/api/v1/account/admin/resetPassword", formValue)
+                        put("/admin/api/v1/account/resetPassword", formValue)
                             .then(respond =>{
                                 if(respond.message != null){
                                     document.querySelector(".message_text5").innerHTML = respond.message
@@ -589,7 +589,7 @@
                 document.querySelector(`input[name=${name}]`).value = ""
             }
 
-            get("/api/v1/role/admin/getAll")
+            get("/admin/api/v1/role/getAll")
                 .then(data => {
                     let html = `  <option value="">Chọn vai trò</option>`;
                     for (const role of data) {

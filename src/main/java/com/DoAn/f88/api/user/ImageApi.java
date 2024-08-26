@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/images")
+@RequestMapping("/user/api/v1/images")
 public class ImageApi {
     @Autowired
     private ImageService  imageService;

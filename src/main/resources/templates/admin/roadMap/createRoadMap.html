@@ -32,12 +32,12 @@
           </div>
           <div class="form-group">
             <label>Mã giảm giá (theo %)</label>
-            <input type="number" class="form-control" name="discount" min="0">
+            <input type="number" class="form-control" name="discount" value="0" min="0" onkeyup="updateTotalPrice()">
           </div>
-          <input type="text" class="multiChoiceJs">
+          <input type="text" class="multiChoiceJs" hidden="hidden">
           <div class="form-group">
             <label>Tổng học phí</label>
-            <input type="text" class="form-control" disabled>
+            <input type="text" class="form-control totalPrice" disabled>
           </div>
           <div class="form-group d-flex flex-column">
             <h6 class="text-danger message_text"></h6>
@@ -51,11 +51,13 @@
 
 <div layout:fragment="js">
   <script>
+    let form =document.querySelector(".formRoadMap")
     document.querySelector(".formRoadMap").addEventListener("submit",(e) =>{
       e.preventDefault();
       let formValue = formToObject(".formRoadMap")
-      form.multiChoiceJs = document.querySelector(".multiChoiceJs").value.split(",").filter(item => item.trim())
-      post(`/api/v1/roadMap/admin/create`,formValue)
+      formValue.courseId = document.querySelector(".multiChoiceJs").value.split(",").filter(item => item.trim())
+      console.log(formValue)
+      post(`/admin/api/v1/roadmap/create`,formValue)
               .then(respond =>{
                 if (respond.message == null){
                   window.location.href = "/admin/courseView/listCourse"
@@ -66,7 +68,7 @@
     })
 
     function fetchCourses() {
-      return fetch("/api/v1/course/admin/findAll")
+      return fetch("/admin/api/v1/course/findAll")
               .then(response => response.json())
               .then(courses => {
                 return courses.map(course => ({
